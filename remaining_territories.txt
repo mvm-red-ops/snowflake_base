@@ -1,0 +1,57 @@
+
+
+ ("Argentina",
+ ["AR"]), 
+ ("Bolivia",
+ ["BO"]),
+ ("Chile",
+ ["CL"]),
+ ("Colombia",
+ ["CO"]),
+ ("Costa Rica",
+ ["CR"]),
+ ("Dominican Republic",
+ ["DO"]),  
+ ("Ecuador",
+ ["EC"]),
+ ("United Kingdom",
+ ["GB"]),
+ ("Guatemala",
+ ["GT"]),
+ ("Honduras",
+ ["HN"]),
+ "Nicaragua",
+ ["NI"],
+ "Panama",
+ ["PA"],
+ "Peru",
+ ["PE"],
+ "Paraguay",
+ ["PY"],
+ "El Salvador",
+ ["SV"],
+ "Uruguay",
+ ["UY"],
+ "Venezuela",
+ ["VE"],
+ 
+        }
+
+
+play_count	total_Time_Watched	asset_duration	avg_play_time	avg_playthrough_rate	asset_id
+33380	5704:20:21	0:40:18	0:10:15	0.25442818	5522783
+
+ALTER TABLE WURL_VIEWERSHIP
+ADD COLUMN play_count number(7,0) DEFAULT NULL
+ALTER TABLE WURL_VIEWERSHIP
+ADD COLUMN total_time_watched VARCHAR(15) 
+ALTER TABLE WURL_VIEWERSHIP
+ADD COLUMN asset_duration VARCHAR(15) 
+ALTER TABLE WURL_VIEWERSHIP
+ADD COLUMN avg_play_time VARCHAR(15) 
+ALTER TABLE WURL_VIEWERSHIP avg_playthrough_rate NUMBER(11, 10)
+ADD COLUMN asset_id VARCHAR(15) 
+
+
+ALTER TABLE WURL_VIEWERSHIP
+ADD COLUMN play_count
