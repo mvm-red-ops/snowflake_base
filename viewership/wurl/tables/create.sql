@@ -12,17 +12,10 @@ month	String DEFAULT NULL,
 ref_id	string DEFAULT NULL,
 share	number(6,4) DEFAULT NULL,
 deal_parent integer default null,
-territory_id integer default null
+territory_id integer default null,
+tot_airtime_min	integer DEFAULT NULL,
+tot_episode_hov integer DEFAULT NULL,
+monthly_share number(6,3) DEFAULT NULL,
+share_2 number(6,3) DEFAULT NULL,
+payout number(10,3) DEFAULT NULL
 )
-
-ALTER TABLE WURL_VIEWERSHIP 
-ADD COLUMN tot_airtime_min	integer DEFAULT NULL
-
-ALTER TABLE WURL_VIEWERSHIP 
-ADD COLUMN tot_episode_hov integer DEFAULT NULL
-
-ALTER TABLE WURL_VIEWERSHIP 
-ADD COLUMN monthly_share number(6,3) DEFAULT NULL
-
-ALTER TABLE WURL_VIEWERSHIP 
-ADD COLUMN share_2 number(6,3) DEFAULT NULL

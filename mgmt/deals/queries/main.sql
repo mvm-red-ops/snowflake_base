@@ -22,13 +22,9 @@ WHERE p.name = 'Pluto'
  
 
  
-
-SELECT * FROM territories
-SELECT * FROM channels
-SELECT * FROM partners
-SELECT * FROM platforms
-
-
+-- ADD TERRITORY ID TO DEAL
+UPDATE deals 
+SET territoryids = PARSE_JSON('[ "1", "4"]') WHERE id = 21
 
 
 

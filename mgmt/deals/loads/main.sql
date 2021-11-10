@@ -22,3 +22,17 @@ from values (1, 3, '["1", "4"]' ,'["8", "9"]', 2),
 
 DELETE FROM DEALS 
 
+
+COPY INTO DEALS (
+  partnerId,
+  platformId,
+  territoryIds,
+  channelIds,
+  dealTypeId  
+) 
+from values (1, 3, '["1", "4"]' ,'["8", "9"]', 2),
+
+a| b| c |d | e
+'', 'partner', '', ''
+
+(t.$2, )
