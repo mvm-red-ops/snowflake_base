@@ -1,12 +1,3 @@
-// Copy command with pattern for file names
-
-COPY INTO NOSEY.PUBLIC.PLUTO_VIEWERSHIP
-    FROM @MANAGE_DB.external_stages.nosey_aws;    
-    file_format= @NOSEY_ASSETS
-    pattern='.*Pluto.*'
-    ON_ERROR=CONTINUE;
-    
-
 -- PLUTO US
 copy into PLUTO_VIEWERSHIP(
     month,

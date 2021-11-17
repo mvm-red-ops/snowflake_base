@@ -11,3 +11,4 @@ FROM  (
       GROUP BY title, month, ref_id,TOTAL_TIME_WATCHED
  ) t
 WHERE (t.ref_id = w.ref_id and t.month = w.month and t.TOTAL_TIME_WATCHED = w.TOTAL_TIME_WATCHED)
+

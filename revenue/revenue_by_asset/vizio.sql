@@ -5,7 +5,7 @@
     //sum the revenue and group by month
     SELECT month, quarter, year, year_month_day, sum(revenue) FROM REVENUE WHERE deal_parent = 20 AND quarter = 'q2'group by year_month_day,month, quarter, year
 
-    //calculate insert monthly rev
+    -- calculate insert monthly rev
       insert into monthly_revenue (deal_parent,month,year,quarter,revenue, year_month_Day)
         with r as
           (SELECT month, quarter, year, year_month_day, sum(revenue) as rev FROM REVENUE WHERE deal_parent = 20 AND quarter = 'q2'group by year_month_day,month, quarter, year )

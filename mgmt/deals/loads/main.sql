@@ -30,9 +30,4 @@ COPY INTO DEALS (
   channelIds,
   dealTypeId  
 ) 
-from values (1, 3, '["1", "4"]' ,'["8", "9"]', 2),
-
-a| b| c |d | e
-'', 'partner', '', ''
-
-(t.$2, )
+from values (1, 3, '["1", "4"]' ,'["8", "9"]', 2)
