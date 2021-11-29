@@ -4,26 +4,14 @@ WHERE quarter = 'q2' and year = 2021 and deal_parent = 29
 group by p.month, a.content_provider, p.deal_parent
 
 
-//topline viewership by platform by month
-SELECT * FROM monthly_viewership_wurl where year = 2021 and quarter = 'q2' and deal_parent = 18
-
 //content partner viewership by platform by month 
 SELECT month, sum(tot_hov) as content_viewership FROM WURL_VIEWERSHIP w 
 JOIN Assets a ON (a.ref_id =w.ref_id ) 
 WHERE deal_parent = 18 AND quarter = 'q2' and year = 2021 and a.content_provider = 'NBC'
 group by a.content_provider, w.month
 
-select * from wurl_viewership
-
-
-SELECT * FROM REVENUE 
-WHERE deal_parent = 18 and quarter = 'q2'
 
 //content partner 
-SELECT  a.ref_id, w.tot_hov, a.content_provider FROM WURL_VIEWERSHIP w 
-JOIN Assets a ON (a.ref_id =w.ref_id ) 
-WHERE deal_parent = 17 AND quarter = 'q2' and year = 2021 and a.content_provider = 'NBC'
-
 SELECT CONTENT_PROVIDER,w.month,w.deal_parent, sum(w.tot_hov) 
 FROM WURL_VIEWERSHIP w 
 JOIN Assets a ON (a.ref_id =w.ref_id ) 
@@ -39,46 +27,16 @@ FROM AMAGI_VIEWERSHIP w
 JOIN Assets a ON (a.ref_id =w.ref_id ) 
 WHERE quarter = 'q2' and year = 2021  GROUP BY CONTENT_PROVIDER
 
-SELECT CONTENT_PROVIDER, sum(w.total_viewing_minutes)  FROM PLUTO_VIEWERSHIP w JOIN Assets a ON (a.ref_id =w.ref_id ) WHERE quarter = 'q2' and year = 2021  GROUP BY CONTENT_PROVIDER
-
-
-//Xumo Minutes	28815614.07
-SELECT sum(tot_hov) * 60 FROM WURL_VIEWERSHIP WHERE deal_parent = 17 AND quarter = 'q2' and year = 2021
-
-//Samsung Minutes	144,873,615
-SELECT sum(tot_hov) * 60 FROM WURL_VIEWERSHIP WHERE deal_parent = 18 AND quarter = 'q2' and year = 2021
 
 
 
-//Plex Minutes Watched	24481096
-SELECT sum(tot_hov)* 60 FROM WURL_VIEWERSHIP WHERE deal_parent = 21 AND quarter = 'q2' and year = 2021  
-
-
-//TRC Linear Mins Watched	289,965,241
-SELECT sum(tot_hov) * 60  FROM WURL_VIEWERSHIP WHERE deal_parent = 16 AND quarter = 'q2' and year = 2021
-
-
-
-//Vizio Minutes Watched	10503726
-SELECT sum(tot_hov) * 60 FROM WURL_VIEWERSHIP WHERE deal_parent = 20 AND quarter = 'q2' and year = 2021
-
-
-//PlutoTV Minutes Watched	683155680
-SELECT sum(total_viewing_minutes)  FROM PLUTO_VIEWERSHIP WHERE deal_parent = 29  AND quarter = 'q2' and year = 2021 and territory_id = 1
-
-
-
-//Samsung Australia Minutes	1,167,448
-SELECT sum(TOTAL_VIEWERSHIP_MINUTES) FROM AMAGI_VIEWERSHIP
-
-
-
-
-//check revenue totals
-
-
-//get total viewership by partner 
-
+-- Pluto 
+-- //Pluto monthly content provider revenue 
+SELECT sum(am.total_revenue),am.month, a.content_provider, am.deal_parent,'Pluto' as partner, t.name as territory  FROM pluto_viewership am
+JOIN ASSETS a ON (a.ref_id = am.ref_id)
+JOIN Territories  t ON (t.id = am.territory_id)
+WHERE am.quarter = 'q2' and am.year = 2021 and  t.name = 'United Kingdom'
+group by am.month, a.content_provider, am.deal_parent, t.name
 
 -- //AMAGI monthly content provider revenue 
 SELECT sum(am.CALC_REVENUE),am.month, a.content_provider, am.deal_parent, 'amagi'  FROM amagi_viewership am
