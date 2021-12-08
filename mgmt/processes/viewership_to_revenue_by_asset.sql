@@ -75,7 +75,7 @@ GROUP BY ref_id
 
 
 SELECt  revenue- calc_revenue as c FROM WURL_VIEWERSHIP 
-WHERE quarter = 'q2' AND deal_parent in ( 18, 20)  
+WHERE quarter = 'q2' AND deal_parent = 16  
 
 
 

@@ -1,14 +1,14 @@
-CREATE OR REPLACE TABLE monthly_viewership_wurl
-(deal_parent number(6,0),
-month number(2),
-year number(4),
-quarter varchar(2),
-tot_hov number(12, 2)
+CREATE OR REPLACE TABLE monthly_viewership
+  (deal_parent number(6,0),
+  month number(2),
+  year number(4),
+  quarter varchar(2),
+  tot_hov number(12, 2)
 )
 
 
 
-insert into monthly_viewership_wurl (deal_parent,month,year,quarter,tot_hov, month_string)
+insert into monthly_viewership (deal_parent,month,year,quarter,tot_hov, month_string)
   with wvm as
     (  select deal_parent,sum(tot_hov)as tot_hov,month 
      from WURL_VIEWERSHIP

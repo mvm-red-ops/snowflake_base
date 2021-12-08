@@ -1,9 +1,9 @@
 
 -- WURL TRC 
--- post '21 q2
+--  '21 q3
     copy into WURL_VIEWERSHIP(channel, title, tot_airtime_min, occurances ,  tot_hov, tot_sessions , tot_completions  ,vs, month, deal_parent,territory_id, year, quarter, filename) 
     from (select  t.$2, t.$3, to_number(REPLACE(t.$4, ',')),to_number(REPLACE(t.$5, ',')),  to_number(REPLACE(t.$6, ','), 20, 5), to_number(REPLACE(t.$7, ','),9,2), to_number(REPLACE(t.$8, ',')),t.$9, t.$10, 16, 1, 2021, 'q3','trc_linear_2021_q3'
-    from @wurl_viewership t) pattern='.*trc_linear_2021_q2.*' file_format = nosey_viewership 
+    from @wurl_viewership t) pattern='.*trc_linear_2021_q3.*' file_format = nosey_viewership 
     ON_ERROR=CONTINUE FORCE=TRUE;
 
  --  '21 q2

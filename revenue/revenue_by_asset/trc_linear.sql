@@ -1,58 +1,49 @@
-//STEP 1: CHECK topline revenue
-  //make sure payments are loaded 
-//  INSERT INTO REVENUE(month, year, quarter, deal_parent, revenue, year_month_day, channel, partner)
-//values (4, 2021, 'q2', 16, 86860.85, 20210401, 'Nosey', 'TRC Linear'),
-//(4, 2021, 'q2', 16, 80445.12, 20210401, 'Real Nosey', 'TRC Linear'),
-//(5, 2021, 'q2', 16, 98835.15, 20210501, 'Nosey', 'TRC Linear'),
-//(5, 2021, 'q2', 16, 84941.40, 20210501, 'Real Nosey', 'TRC Linear'),
-//(6, 2021, 'q2', 16, 92902.33, 20210601, 'Nosey', 'TRC Linear'),
-//(6, 2021, 'q2', 16, 76796.64, 20210601, 'Real Nosey', 'TRC Linear')
-UPDATE monthly_revenue 
-SET deal_parent = 21 WHERE deal_parent IS null
 
-SELECT * FROM monthly_revenue
-SELECT * FROM topline_revenue
-    //step 2 
-    //sum the revenue and group by month
-    SELECT month, quarter, year,channel, year_month_day, sum(revenue) as rev FROM REVENUE WHERE deal_parent = 16 AND quarter = 'q2'group by year_month_day,month, quarter, year, channel
-
-    //calculate insert monthly rev
-//      insert into monthly_revenue (deal_parent,month,year,quarter,revenue, year_month_day, channel)
-//        with r as
-//          (SELECT month, quarter, year,channel, year_month_day, sum(revenue) as rev FROM REVENUE WHERE deal_parent = 16 AND quarter = 'q2'group by year_month_day,month, quarter, year, channel )
-//        select 16, r.month, r.year, r.quarter,r.rev,r.year_month_day, r.channel
-//        from r;   
-//
-      SELECT * FROM monthly_revenue WHERE deal_parent = 16 and quarter = 'q2'
-
-
-
-//STEP 2: CHECK topline viewership
-SELECT sum(tot_hov),quarter FROM WURL_VIEWERSHIP WHERE month IN('20210401', '20210501','20210601') AND deal_parent = 16 group by month, quarter
-
-        //calculate insert monthly viewerhsip
-//      insert into monthly_viewership (deal_parent,month,year,quarter,tot_hov, month_string)
-//        with r as
-//          (SELECT month, quarter, sum(tot_hov)as hov FROM WURL_VIEWERSHIP WHERE deal_parent = 16 AND quarter = 'q2'AND month ='20210401'group by month, quarter )
-//        select 16, 4, 2021, r.quarter,r.hov,r.month
-//        from r;   
-
-      SELECT * FROM monthly_viewership WHERE deal_parent = 16 and quarter = 'q2'
-   
-   DELETe FROM wurl_viewership WHERE deal_parent = 20 and month IN ('20210401', '20210501','20210601')
-   UPDATE wurl_viewership SET quarter = 'q2' WHERE deal_parent = 20 and month IN ('20210401', '20210501','20210601')
-   
-
- 
-
+//update monthly totals   
+select sum(tot_hov), channel from  WURL_VIEWERSHIP
+  where deal_parent = 16 and quarter = 'q2'
+  group by channel
   
 
-//share by asset 
-SELECT ref_id, v.month, v.tot_hov, mv.tot_hov as monthly_hov, v.share, (v.tot_hov / monthly_hov) as calc_share, r.revenue,(calc_share * r.revenue)rev_by_record
+//recalculate share (make sure channel Real Nosey = RealNosey)
+SELECT ref_id, v.month,v.channel, v.tot_hov, mv.tot_hov as monthly_hov, v.share, (v.tot_hov / monthly_hov) as calc_share, r.revenue,(calc_share * r.revenue)rev_by_record
 FROM WURL_VIEWERSHIP v 
-JOIN monthly_viewership mv ON (mv.month_string = v.month AND mv.deal_parent = v.deal_parent)
-JOIN monthly_revenue r ON (r.YEAR_MONTH_DAY = v.month and r.deal_parent = v.deal_parent) 
-WHERE v.deal_parent = 20 AND v.quarter = 'q2' 
+JOIN monthly_viewership mv ON (mv.month_string = v.month AND mv.deal_parent = v.deal_parent and mv.channel = v.channel)
+JOIN monthly_revenue r ON (r.YEAR_MONTH_DAY = v.month and r.deal_parent = v.deal_parent and r.channel = v.channel) 
+WHERE v.deal_parent = 16 AND v.quarter = 'q2' 
+
+
+//update record with calced values
+update wurl_viewership wv
+set wv.share_calculated = w.calc_share, wv.calc_revenue = w.rev_by_record
+from (
+      SELECT ref_id, v.month, v.tot_hov,v.channel, mv.tot_hov as monthly_hov, v.share, (v.tot_hov / monthly_hov) as calc_share, r.revenue,(calc_share * r.revenue)rev_by_record
+      FROM WURL_VIEWERSHIP v 
+      JOIN monthly_viewership mv ON (mv.month_string = v.month AND mv.deal_parent = v.deal_parent)
+      JOIN monthly_revenue r ON (r.YEAR_MONTH_DAY = v.month and r.deal_parent = v.deal_parent) 
+      WHERE v.deal_parent = 16 AND v.quarter = 'q2'  
+      ) w
+where wv.ref_id = w.ref_id and wv.channel = w.channel and wv.month = w.month and wv.tot_hov = w.tot_hov
 
 
 
+//check values are set properly
+SELECT ref_id, v.month, v.deal_parent,v.channel, share_calculated, calc_revenue
+FROM WURL_VIEWERSHIP v 
+JOIN monthly_viewership mv ON (mv.month_string = v.month and mv.channel = v.channel and mv.deal_parent = v.deal_parent)
+JOIN monthly_revenue r ON (r.year_month_day = v.month and r.deal_parent = v.deal_parent and r.channel = v.channel) 
+WHERE v.deal_parent = 16 AND v.quarter = 'q2'  
+
+      
+
+
+
+      
+
+
+
+
+
+
+
+  

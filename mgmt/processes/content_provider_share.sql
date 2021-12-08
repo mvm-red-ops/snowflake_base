@@ -1,52 +1,85 @@
 
--- //step 1 make sure the invidual expenses are in and accurate
-//individual expense itmems
-select sum(amount) from expenses e 
-where deal_parent = 16 and quarter = 'q2' and year = 2021 and month = 6 
+
+//individual expense itms
+select amount,channel, deal_parent, month from expenses e 
+where deal_parent in (18, 21) and quarter = 'q2' and year = 2021 
+group by deal_parent, channel, month
+
+select * from expenses e 
+where deal_parent in (18, 21) and quarter = 'q2' and year = 2021 
 
 
 
+//topline expenses 
+select sum(amount), month, year, quarter,channel,deal_parent  from expenses 
+where deal_parent in (18, 21) and quarter = 'q2' and year = 2021   
+group by  month, year, quarter,deal_parent, channel
 
--- // check topline expenses 
-select sum(amount), month, year, quarter,deal_parent  from expenses 
-where deal_parent = 16 and quarter = 'q2' and year = 2021   
-group by  month, year, quarter,deal_parent 
-
--- //insert into monthly expense table
+//insert into monthly table
 insert into monthly_expenses(amount, month, year, quarter, deal_parent, channel)
 select sum(amount), month, year, quarter,deal_parent, channel  from expenses 
-where deal_parent = 16 and quarter = 'q2' and year = 2021
+where deal_parent in (18, 21)  and quarter = 'q2' and year = 2021
 group by channel, month, year, quarter,deal_parent, channel
 
 
--- //query check
+
+
+//query check
 select * from monthly_expenses
+where deal_parent in (18, 21)  and quarter = 'q2' and year = 2021 
+
+select sum(tot_hov), deal_parent, month, channel from wurl_viewership where deal_parent in (18, 21)  and quarter = 'q2' group by month,channel, deal_parent
+insert into monthly_viewership(tot_hov, deal_parent, month_string, channel, year)
+select sum(tot_hov), deal_parent, month, channel, 2021 from wurl_viewership where deal_parent in (18, 21)  and quarter = 'q2' group by month,channel, deal_parent
+
+select * from monthly_viewership
+where deal_parent in (18, 21) and year = 2021
+
+//update monthly_expenses 
+//set month_string = '20210401' 
+//where month = 4 and year = 2021
+//
+//update monthly_expenses 
+//set month_string = '20210501' 
+//where month = 5 and year = 2021
+//
+//update monthly_expenses 
+//set month_string = '20210601' 
+//where month = 6 and year = 2021
 
 
--- update month string field string to join on 
-update monthly_expenses 
-set month_string = '20210401' 
-where month = 4 and year = 2021
 
 
-
--- //sum up content partner total hov to get monthly share 
-select sum(w.tot_hov), w.month, a.content_provider,p.name from wurl_viewership w
-join assets a on (a.ref_id = w.ref_id)
-join deals d on (d.id = w.deal_parent)
-join partners p on (p.id = d.partnerid)
-where w.quarter = 'q2' and w.year = 2021 and p.name = 'TRC' 
-group by w.month, a.content_provider, w.deal_parent,p.name
+//calculate content partner monthly share 
 insert into content_provider_share
-
--- //group by channel for trc 
-select sum(w.tot_hov) / mv.tot_hov, w.month, a.content_provider, w.channel, p.name from wurl_viewership w
+select sum(w.tot_hov) / mv.tot_hov, w.month, a.content_provider, w.channel, p.name, 'q2', 2021 from wurl_viewership w
 join assets a on (a.ref_id = w.ref_id)
 join deals d on (d.id = w.deal_parent)
 join partners p on (p.id = d.partnerid)
-join monthly_viewership mv on (mv.month_string = w.month and mv.channel = w.channel)
-where w.quarter = 'q2' and w.year = 2021 and p.name = 'TRC' 
+join monthly_viewership mv on (mv.month_string = w.month and mv.channel = w.channel and w.deal_parent = mv.deal_parent)
+where w.quarter = 'q2' and w.year = 2021 and w.deal_parent in (18, 21)
 group by a.content_provider, w.month, w.channel, mv.tot_hov, p.name
+order by p.name, month, channel, content_provider
 
 
-select * from content_provider_share
+//calculate the expenses based on share
+select p.name, cps.month, content_provider, cps.channel, e.quarter, type,title, share as partner_percentage, cps.share * e.amount as partner_expense_calculated, amount as expense_item_amount from content_provider_share cps
+join expenses e on (e.invoice_month = cps.month and e.channel = cps.channel )
+join deals d on (d.id = e.deal_parent)
+join partners p on (p.id = d.partnerid)
+where e.deal_parent in (18, 21)
+order by p.name, month, channel, content_provider
+
+
+
+//example of aberrant record / register changes
+//select w.tot_hov, w.ref_id, w.month, a.content_provider,p.name from wurl_viewership w
+//join assets a on (a.ref_id = w.ref_id) 
+//join deals d on (d.id = w.deal_parent)
+//join partners p on (p.id = d.partnerid)
+//where a.content_provider = 'Telegenic Entertainment' and w.quarter = 'q2' and w.year = 2021 and p.name = 'TRC' 
+
+
+
+
+
