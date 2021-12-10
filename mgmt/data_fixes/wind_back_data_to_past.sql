@@ -1,16 +1,10 @@
-
 update wurl_viewership w from
 (
-  SELECT id, ref_id, tot_hov, title, occurances  FROM WURL_VIEWERSHIP  at(offset => -60*25) 
+  SELECT id, ref_id as past_ref_id FROM WURL_VIEWERSHIP  at(offset => -60*10)
 ) a
-set ref_id = a.ref_id
-where w.id = a.id  and w.ref_id != a.ref_id
+set ref_id = a.past_ref_id
+where w.id = a.id  and w.ref_id != a.past_ref_id
 
-
-
-update WURL_VIEWERSHIP  w set w.tot_hov = past.tot_hov
-  from (SELECT id, tot_hov FROM WURL_VIEWERSHIP  at(offset => -60*25) WHERE month IN( '20210401' ,  '20210501',  '20210601'  )) past
-  where w.id = past.id and past.tot_hov != w.tot_hov;
 
 
 

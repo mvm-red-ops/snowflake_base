@@ -31,12 +31,12 @@ where w.quarter = 'q2' and w.deal_parent in ( 18, 20, 21)
 UPDATE WURL_VIEWERSHIP wv
 SET SHARE_CALCULATED = t.calced_share 
 FROM (
-  SELECT w.deal_parent, w.ref_id, w.month, w.tot_hov, share, w.tot_hov / m.tot_hov as calced_share 
+  SELECT w.deal_parent, w.ref_id, w.month,w.year, w.tot_hov, share, w.tot_hov / m.tot_hov as calced_share 
   FROM WURL_VIEWERSHIP w
   JOIN monthly_viewership m ON (m.month_string = w.month 
     AND m.deal_parent = w.deal_parent)
 ) t
-WHERE wv.quarter = 'q2' AND wv.deal_parent  = 18
+WHERE wv.quarter = 'q2' AND wv.deal_parent  = 20 and wv.year = t.year
 and wv.ref_id = t.ref_id and wv.month = t.month 
 and wv.deal_parent = t.deal_parent and wv.tot_hov = t.tot_hov   
 
@@ -45,7 +45,7 @@ and wv.deal_parent = t.deal_parent and wv.tot_hov = t.tot_hov
 SELECT *,deal_parent, p.name  FROM monthly_revenue m
 JOIN DEALS d ON (d.id = m.deal_parent)
 JOIN PARTNERS p ON (d.partnerid = p.id)
-where quarter = 'q2' and deal_parent in ( 18, 20, 21)
+where quarter = 'q2' and deal_parent in ( 20)
 
 
 UPDATE WURL_VIEWERSHIP wv

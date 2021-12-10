@@ -1,10 +1,50 @@
 -- WURL PLEX
 
 -- q3
-copy into WURL_VIEWERSHIP(channel, title, series_text, ref_id, tot_airtime_min, occurances, tot_hov, tot_sessions, avg_session_hov, tot_completions, vs, month, deal_parent,territory_id, channel_id, year, quarter, filename) 
-from (select t.$1, t.$2,t.$3,t.$4, to_number(REPLACE(t.$5, ','), 10, 0), to_number(REPLACE(t.$6, ','), 10, 1),to_decimal(REPLACE(t.$7, ','), 15, 6),  to_decimal(REPLACE(t.$8, ','), 10, 2), to_decimal(REPLACE(t.$9, ','), 10, 5), to_number(REPLACE(t.$10, ','), 10, 2), t.$11, t.$12, 21, 1, 8, 2021, 'q3', ''  
-from @wurl_viewership t) pattern='.*plex_nosey_july_21.*' file_format = nosey_viewership 
-ON_ERROR=CONTINUE FORCE=TRUE; 
+copy into WURL_VIEWERSHIP(
+  channel, 
+  title, 
+  series_text, 
+  ref_id, 
+  tot_airtime_min, 
+  occurances, tot_hov, 
+  tot_sessions, 
+  avg_session_hov, 
+  tot_completions, 
+  vs, 
+  month, 
+  deal_parent,
+  territory_id, 
+  channel_id, 
+  year, 
+  quarter, 
+  filename
+) 
+from (
+  select t.$1, 
+  t.$2,
+  t.$3,
+  t.$4, 
+  to_number(REPLACE(t.$5, ','), 10, 0), 
+  to_number(REPLACE(t.$6, ','), 10, 1),
+  to_decimal(REPLACE(t.$7, ','), 15, 6), 
+  to_decimal(REPLACE(t.$8, ','), 10, 2), 
+  to_decimal(REPLACE(t.$9, ','), 10, 5), 
+  to_number(REPLACE(t.$10, ','), 10, 2), 
+  t.$11, 
+  t.$12,
+  21, 
+  1, 
+  9,
+  2021,
+  'q3', 
+  'plex_nosey_july_21.csv'  
+from @wurl_viewership t) pattern='.*plex_nosey_july_21.csv.*' file_format = nosey_viewership 
+ON_ERROR=SKIP_FILE FORCE=TRUE; 
+
+select * from WURL_VIEWERSHIP where quarter = 'q3' and year = 2021 and deal_parent= 21 and  channel_id = 13 and month = '20210901'
+
+
 
 
 -- with revenue (as of q2 21)
