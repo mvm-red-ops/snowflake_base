@@ -25,37 +25,14 @@
 
 
 
--- connector expenses april
-
-
-INSERT INTO wurl_invoices( DESCRIPTION, QUANTITY,RATE, AMOUNT, YEAR, QUARTER, MONTH, MONTH_STRING,  DEAL_PARENT)
-values ('Active Connector: Nosey on Vizio, HLS, Connector', 1, 800.00, 800.00, 2021, 'q2', 4, '20210401', 20), 
-('Active Connector: RealNosey on Vizio, HLS, Connector', 1,800.00, 800.00, 2021, 'q2', 4, '20210401', 20), 
-('Active Connector: Nosey on Xumo (VOD2) - XUMO (VOD2), HLS, Connector' , 1,400.00, 400.00, 2021, 'q2', 4, '20210401', 17), 
-('Active Connector: Nosey on Plex, HLS Connector', 0, 0.00, 750, 2021, 'q2', 4, '20210401', 21), 
-('Active Connector: RealNosey on Plex, HLS Connector', 0, 0.00, 750, 2021, 'q2', 4, '20210401', 21), 
-('Active Connector: Nosey on Roku, HLS Connector', 0, 0.00, 750, 2021, 'q2', 4, '20210401', 16), 
-('Active Connector: RealNosey on Roku, HLS Connector', 0, 0.00, 750, 2021, 'q2', 4, '20210401', 16), 
-('Active Connector: Nosey on Samsung, HLS Connector', 0, 0.00, 750, 2021, 'q2', 4, '20210401', 18), 
-('Active Connector: Nosey on Vizio, HLS, Connector', 1, 800.00, 800.00, 2021, 'q2', 5, '20210501', 20), 
-('Active Connector: RealNosey on Vizio, HLS, Connector', 1, 800.00, 800.00, 2021, 'q2', 5, '20210501', 20), 
-('Active Connector: Nosey on Xumo (VOD2) - XUMO (VOD2), HLS, Connector' , 1, 400.00, 400.00, 2021, 'q2', 5, '20210501', 17), 
-('Active Connector: Nosey on Plex, HLS Connector', 0, 0.00, 750, 2021, 'q2', 5, '20210501', 21), 
-('Active Connector: RealNosey on Plex, HLS Connector', 0, 0.00, 750, 2021, 'q2', 5, '20210501', 21), 
-('Active Connector: Nosey on Roku, HLS Connector', 0, 0.00, 750, 2021, 'q2', 5, '20210501', 16), 
-('Active Connector: RealNosey on Roku, HLS Connector', 0, 0.00, 750, 2021, 'q2', 5, '20210501', 16), 
-('Active Connector: Nosey on Samsung, HLS Connector', 0, 0.00, 750, 2021, 'q2', 5, '20210501', 18),
-('Active Connector: Nosey on Vizio, HLS, Connector', 1, 800.00, 800.00, 2021, 'q2', 6, '20210601', 20), 
-('Active Connector: RealNosey on Vizio, HLS, Connector', 1,800.00, 800.00, 2021, 'q2', 6, '20210601', 20), 
-('Active Connector: Nosey on Xumo (VOD2) - XUMO (VOD2), HLS, Connector' , 1,400.00, 400.00, 2021, 'q2', 6, '20210601', 17), 
-('Active Connector: Nosey on Plex, HLS Connector', 0, 0.00, 750, 2021, 'q2', 6, '20210601', 21), 
-('Active Connector: RealNosey on Plex, HLS Connector', 0, 0.00, 750, 2021, 'q2', 6, '20210601', 21), 
-('Active Connector: Nosey on Roku, HLS Connector', 0, 0.00, 750, 2021, 'q2', 6, '20210601', 16), 
-('Active Connector: RealNosey on Roku, HLS Connector', 0, 0.00, 750, 2021, 'q2', 6, '20210601', 16), 
-('Active Connector: Nosey on Samsung, HLS Connector', 0, 0.00, 750, 2021, 'q2', 6, '20210601', 18)
-
-
-
+INSERT INTO expenses( DESCRIPTION, QUANTITY,RATE, AMOUNT, YEAR, QUARTER, MONTH, invoice_month,  DEAL_PARENT, CHANNEL, CHANNELID)
+values ('Active Connector: RealNosey on Vizio, HLS Connector',	'1',	'800',	'800', 2021, 'q3', 9, '20210901', 20, 'Real Nosey', 9),
+('Active Connector: Nosey on Xumo (VOD2)',	'1',	'400',	'400', 2021, 'q3', 9, '20210901', 17, 'Nosey', 8),
+('Active Connector: Nosey on Roku, HLS Connector',	'1',	'750',	'750', 2021, 'q3', 9, '20210901', 16, 'Nosey', 8),
+('Active Connector: Nosey on Samsung, HLS Connector',	'1',	'750',	'750', 2021, 'q3', 9, '20210901', 18, 'Nosey', 8),
+('Active Connector: Nosey on Plex, HLS Connector',	'1',	'750',	'750', 2021, 'q3', 9, '20210901', 21, 'Nosey', 8),
+('Active Connector: RealNosey on Plex, HLS Connector',	'1',	'750',	'750', 2021, 'q3', 9, '20210901', 21, 'Real Nosey', 9),
+('Active Connector: RealNosey on Roku, HLS Connector',	'1',	'750',	'750', 2021, 'q3', 9, '20210901', 16, 'Real Nosey', 9)
 
 
 INSERT INTO REVENUE(deal_parent, month, year, quarter, year_month_day, costs, type, title)
