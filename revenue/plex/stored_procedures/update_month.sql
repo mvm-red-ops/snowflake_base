@@ -1,5 +1,4 @@
---stored procedures
--- 1 update month based on date_unformatted field 
+-- update month based on date_unformatted field 
 CREATE OR REPLACE PROCEDURE month_update_plex_revenue(quarter STRING, year DOUBLE)
     returns string
     language javascript
@@ -30,7 +29,7 @@ CREATE OR REPLACE PROCEDURE month_update_plex_revenue(quarter STRING, year DOUBL
         from revenue
         where deal_parent = 21 and quarter = "QUARTER" and year = "YEAR" and month is null
       ) as sub_r
-      WHERE r.id = sub_r.id and r.quarter ="QUARTER" and r.year = "YEAR" and r.month is null`;
+      WHERE r.id = sub_r.id `;
     try {
         snowflake.execute (
             {sqlText: sql_command}

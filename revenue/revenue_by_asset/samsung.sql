@@ -19,3 +19,12 @@ FROM WURL_VIEWERSHIP v
 JOIN monthly_viewership_wurl mv ON (mv.month_string = v.month AND mv.deal_parent = v.deal_parent)
 JOIN REVENUE r ON (r.YEAR_MONTH_DAY = v.month and r.deal_parent = v.deal_parent) 
 WHERE v.deal_parent = 18 AND v.quarter = 'q2' 
+
+
+
+-- monthly revenue
+ insert into monthly_revenue (deal_parent,month,year,quarter,revenue, year_month_Day)
+        with r as
+          (SELECT month, quarter, year, year_month_day, sum(revenue) as rev FROM REVENUE WHERE deal_parent = 18 AND quarter = 'q3'group by year_month_day,month, quarter, year )
+        select 18, r.month, r.year, r.quarter,r.rev,r.year_month_day
+        from r;   

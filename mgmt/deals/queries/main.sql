@@ -14,6 +14,14 @@ FROM DEALS,
 lateral flatten(input => territoryIds);
 
 
+-- TERRITORY ABBREVIATIONS WITH ID
+SELECT 
+id,
+value
+FROM territories,
+lateral flatten(input => abbreviations);
+
+
 -- DEALS WITH PARTNER NAMES
 SELECT * FROM DEALS d 
 JOIN  PARTNERS p ON (p.id = d.partnerid )

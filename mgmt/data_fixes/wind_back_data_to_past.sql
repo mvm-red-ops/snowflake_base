@@ -1,3 +1,6 @@
+
+
+-- wind back ref id for all wurl_viewership
 update wurl_viewership w from
 (
   SELECT id, ref_id as past_ref_id FROM WURL_VIEWERSHIP  at(offset => -60*10)
