@@ -1,5 +1,6 @@
+
 -- update channel_id  based on channel name
-CREATE OR REPLACE PROCEDURE channel_update_amagi_viewership(quarter STRING, year DOUBLE, channel STRING)
+CREATE OR REPLACE PROCEDURE channel_update_amagi_viewership(quarter STRING, year DOUBLE, channelname STRING)
     returns string
     language javascript
     strict
@@ -8,10 +9,11 @@ CREATE OR REPLACE PROCEDURE channel_update_amagi_viewership(quarter STRING, year
     $$
     var sql_command = 
      `update amagi_viewership r
-        set r.channel =  "CHANNEL" 
+        set r.channel = q.channel_param
         from (
-            select r.id as r_id, r.channel  from amagi_viewership r 
-            where quarter = "QUARTER" and year = "YEAR" and channel is null
+            select r.id as r_id, r.channel, c.name as channel_param  from amagi_viewership r 
+            join channels c on (c.name = '` + CHANNELNAME +`')
+            where quarter = "QUARTER" and year = "YEAR" and r.channel is null
         ) q
         where r.id = q.r_id `;
     try {
@@ -28,9 +30,4 @@ CREATE OR REPLACE PROCEDURE channel_update_amagi_viewership(quarter STRING, year
 
 
 -- call 
-call channel_update_amagi_viewership('q3', '2021'::DOUBLE, 'Nosey')
-
-
-
-
-
+call channel_update_amagi_viewership('q3', '2021'::DOUBLE, 'Nosey'::STRING)

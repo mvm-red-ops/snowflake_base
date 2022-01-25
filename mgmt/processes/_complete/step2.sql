@@ -6,7 +6,7 @@
 
 
 //insert records into monthly_viewership
-    insert into monthly_viewership (channel, month_string, deal_parent,year, tot_hov, quarter)
+    insert into monthly_viewership (channel, year_month_day, deal_parent,year, tot_hov, quarter)
     select channel, month, deal_parent, year, sum(tot_hov),quarter from wurl_viewership where quarter = 'q3' and year = 2021 
     group by channel, month, deal_parent, year, quarter
 

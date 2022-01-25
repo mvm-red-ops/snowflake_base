@@ -1,8 +1,8 @@
 -- calculate record level share
 SELECT w.deal_parent, w.ref_id, w.month, share,  w.tot_hov / m.tot_hov as calced_share
 FROM WURL_VIEWERSHIP w
-JOIN monthly_viewership m ON (m.month_string = w.month AND m.deal_parent = w.deal_parent and w.channel = m.channel)
-where w.quarter = 'q3'and year = 2021 and w.deal_parent in ( 16, 18, 20, 21)
+JOIN monthly_viewership m ON (m.year_month_day = w.month AND m.deal_parent = w.deal_parent and w.channel = m.channel)
+where w.quarter = 'q3'and w.year = 2021 and w.deal_parent in ( 16, 18, 20, 21)
 
 
 
@@ -10,16 +10,15 @@ where w.quarter = 'q3'and year = 2021 and w.deal_parent in ( 16, 18, 20, 21)
 
 -- NON TRC
 UPDATE WURL_VIEWERSHIP wv
-SET share = t.calced_share 
+SET wv.share = t.calced_share 
 FROM (
-  SELECT  w.id as id, w.month, w.tot_hov, share, w.tot_hov / m.tot_hov as calced_share , w.channel_id
+  SELECT  w.id, w.deal_parent, w.ref_id, w.month, share,  w.tot_hov / m.tot_hov as calced_share
   FROM WURL_VIEWERSHIP w
   JOIN monthly_viewership m ON (
-    m.month_string = w.month 
+    m.year_month_day = w.month 
     and m.deal_parent = w.deal_parent
-    and m.channel = w.channel
   )
-  WHERE w.quarter = 'q3'  and w.year = 2021 and w.deal_parent = 20 
+  WHERE w.quarter = 'q3'  and w.year = 2021 and w.deal_parent = 17 
 ) t
 WHERE wv.id = t.id
     

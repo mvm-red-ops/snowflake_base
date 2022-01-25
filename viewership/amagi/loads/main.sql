@@ -25,8 +25,9 @@ copy into AMAGI_VIEWERSHIP(
     TOTAL_VIEWERSHIP_MINUTES,UNIQUE_VIEWERS,AVG_SESSION_COUNT,AVG_SESSION_DURATION_PER_SESSION,
     AVG_SESSION_DURATION_PER_VIEWER, year, quarter
 )
-from (select t.$1, t.$3,t.$4,t.$5, 
-         to_number(REPLACE(t.$6, ','), 12, 2),
+from (
+    select t.$1, t.$3,t.$4,t.$5, 
+    to_number(REPLACE(t.$6, ','), 12, 2),
     to_number(REPLACE(t.$7, ','), 12, 2),
     to_number(REPLACE(t.$8, ','), 12, 2), 
     to_number(REPLACE(t.$9, ','), 8, 2),
