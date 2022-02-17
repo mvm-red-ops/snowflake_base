@@ -10,9 +10,8 @@ Select T.$1, T.$2, T.$3, T.$4, T.$5, T.$6, T.$7, T.$8, T.$9, T.$10, T.$11, T.$12
 
 
 
-
-copy into assets(ref_id, EPISODE_DETAILS, TITLE, DESCRIPTION, DURATION, ORIGINAL_AIR_DATE, CONTENT_PROVIDER, SEASON, EPISODE,SERIES, CREATEDAT)
-form (select T.$1, T.$2, T.$3, T.$4, T.$5, T.$6, T.$7, T.$8, T.$9, T.$10, T.$11, T.$12,  T.$16, T.$17, T.$14, T.$15 ,T.$13 from @nosey_aws t)
-pattern = '.*asset_fix.*'
+copy into assets.public.assets(ref_id, EPISODE_DETAILS, TITLE, DESCRIPTION, DURATION, ORIGINAL_AIR_DATE, CONTENT_PROVIDER, SERIES, SEASON, EPISODE)
+from (select T.$1, T.$2, T.$3, T.$4, T.$5, T.$6, T.$7, T.$8, T.$9, T.$10 from @nosey_assets t)
+pattern = '.*assset_update_2.*'
 file_format = 'nosey_assets'
-ON_ERROR=SKIP_FILE FORCE=TRUE;
+ON_ERROR=SKIP_FILE FORCE=TRUE;     
