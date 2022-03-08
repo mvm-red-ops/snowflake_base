@@ -188,4 +188,3 @@ update wurl_viewership w from
 ) a
 set ref_id = a.asset_ref_id
 where w.id = a.id 
-
