@@ -62,3 +62,9 @@ where advertiser like 'Amazon Publisher%'
 //$4,951.91
 //$9,124.46
 //$13,099.90
+
+
+-- //adx is summed on record level
+select sum(AD_EXCHANGE_REVENUE),YEAR_MONTH_DAY, department_id from gam_data 
+where advertiser = 'AdX'
+group by YEAR_MONTH_DAY,department_id

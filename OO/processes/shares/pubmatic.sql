@@ -40,8 +40,8 @@ select sum(impressions), year_month_day, 'pubmatic' from spotx g
 
 
 
--- Step 4.  get share of each device per month using sum(impressions) / monthly_revenue
-select (impressions / tot_impressions) as share , g.year_month_day from spotx g
+-- Step 4.  get pub_share of each device per month using sum(impressions) / monthly_revenue
+select (impressions / tot_impressions) as pub_share , g.year_month_day from spotx g
 join monthly_impressions m on (m.year_month_day = g.year_month_day)
 where  channel_name not in ('MVMS: Gravitas',
 'CarShield Test',
@@ -52,7 +52,7 @@ and DEAL_NAME like '%ubmatic%'
 and m.partner = 'pubmatic'
 and DEAL_DEMAND_SOURCE != 'House Ad'
 
--- Step 5. Update share column in spotx table
+-- Step 5. Update pub_share column in spotx table
 update spotx s
 set s.pub_share = q.qshare
 from (
@@ -71,7 +71,7 @@ where s.id = q.gid
 
 
 
-select sum(share) , year_month_day from spotx g
+select sum(pub_share) , year_month_day from spotx g
  where  channel_name not in ('MVMS: Gravitas',
   'CarShield Test',
   'Nosey Roku Test Channel',
@@ -149,6 +149,15 @@ select sum(impressions), sum(pub_revenue), year_month_day  from spotx s
 join nosey_staging.public.departments d on (d.id = s.department_id)
 where deal_name like '%ubmatic%'
 group by year_month_day
+
+
+
+//pubmatic revenue done
+select sum(pub_revenue), nd.name, YEAR_MONTH_DAY from spotx s
+join nosey_staging.public.departments nd on (nd.id = s.department_id)
+where pub_share is not null
+group by YEAR_MONTH_DAY, nd.name
+
 
 
 
