@@ -17,6 +17,6 @@ CREATE OR REPLACE FILE FORMAT nosey_csv
   SKIP_BLANK_LINES = TRUE;
 
 create or replace stage distribution_partners_revenue url='s3://nosey-snowflake/distribution_partners/revenue' 
-credentials=(aws_key_id='AKIAUASF4VJ5U54QA6ML' aws_secret_key='7j8Q8przvk6drvNsgRNE6gnV39LZB31dqFe20fcS')
+credentials=(aws_key_id='' aws_secret_key='')
 file_format = nosey_viewership;
 
