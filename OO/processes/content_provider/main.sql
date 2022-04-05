@@ -1,6 +1,6 @@
-//monthly viewership - sum viewership minutes, grouped. by department and year_month_day
-//content provider viewership - sum viewership minutes grouped by content_provider and year_month_day and department
-//content provider share is determined by content provider viewership / monthly_viewership 
+-- //monthly viewership - sum viewership minutes, grouped by department and year_month_day
+-- //content provider viewership - sum viewership minutes grouped by content_provider and year_month_day and department
+-- //content provider share is determined by content provider viewership / monthly_viewership 
 
 select sum(watch_time_seconds),CONTENT_PROVIDER from powr_viewership
 group by CONTENT_PROVIDER
@@ -90,5 +90,9 @@ where  mr.department_id is not null
 //regiser query
 select year_month_day, nd.name,partner as title,  content_provider, cp_share as content_provider_share, rev_share as revenue from register r
 join nosey_staging.public.departments nd on (nd.id = r.department_id)
+
+
+
+
 
 

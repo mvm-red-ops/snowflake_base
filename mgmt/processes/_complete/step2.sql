@@ -1,16 +1,14 @@
 -- monthly viewership totals
 
--- //update year_month_day column in wurl_viewership using month column (trc linear already uses year_month_day)
--- //update wurl_viewership
--- //set year_month_day = '20211001'
--- //where quarter = 'q4' and year = 2021 and year_month_day is null and month like '%10%'
+-- //update year_month_day column in wurl_viewership using month or date column (trc linear already uses year_month_day)
+    -- //update wurl_viewership
+    -- //set year_month_day = '20211001'
+    -- //where quarter = 'q4' and year = 2021 and year_month_day is null and month like '%10%'
     select month from wurl_viewership where quarter = 'q4' and year = 2021 and year_month_day is null and month like '%10%'
 
 -- //monthly viewership calculation by channel 
     select channel, year_month_day, deal_parent, sum(tot_hov) from wurl_viewership where quarter = 'q4' and year = 2021 
     group by channel, year_month_day, deal_parent
-
-
 
 
 

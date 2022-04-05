@@ -1,31 +1,14 @@
+
+-- Pluto
 SELECT sum(total_revenue), p.month, a.content_provider, p.deal_parent, 'pluto' FROM PLUTO_VIEWERSHIP p 
 JOIN ASSETS a ON (a.ref_id = p.ref_id)
 WHERE quarter = 'q2' and year = 2021 and deal_parent = 29
 group by p.month, a.content_provider, p.deal_parent
 
 
-//content partner viewership by platform by month 
-SELECT month, sum(tot_hov) as content_viewership FROM WURL_VIEWERSHIP w 
-JOIN Assets a ON (a.ref_id =w.ref_id ) 
-WHERE deal_parent = 18 AND quarter = 'q2' and year = 2021 and a.content_provider = 'NBC'
-group by a.content_provider, w.month
-
-
-//content partner 
-SELECT CONTENT_PROVIDER,w.month,w.deal_parent, sum(w.tot_hov) 
-FROM WURL_VIEWERSHIP w 
-JOIN Assets a ON (a.ref_id =w.ref_id ) 
-JOIN Revenue r ON (r.YEAR_MONTH_DAY = w.month and r.deal_parent = w.deal_parent and r.quarter = w.quarter)
-WHERE w.quarter = 'q2' and w.year = 2021  and a.content_provider = 'NBC' and w.deal_parent = 18
-GROUP BY CONTENT_PROVIDER, w.month,w.deal_parent
-ORDER BY CONTENT_PROVIDER, w.deal_parent, w.month
 
 
 
-SELECT CONTENT_PROVIDER, sum(w.TOTAL_VIEWERSHIP_MINUTES)  
-FROM AMAGI_VIEWERSHIP w 
-JOIN Assets a ON (a.ref_id =w.ref_id ) 
-WHERE quarter = 'q2' and year = 2021  GROUP BY CONTENT_PROVIDER
 
 
 

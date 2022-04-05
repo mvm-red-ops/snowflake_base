@@ -1,20 +1,22 @@
 
--- xumo
-
-INSERT INTO revenue (month, year, quarter, year_month_day, deal_parent, provider, partner, revenue)
-values(4, 2021, 'q2', '20210401', 17, '47 Samurai', 'Xumo', '64.78'),
-(5, 2021, 'q2', '20210501', 17, '47 Samurai', 'Xumo', '322.43'),
-(6, 2021, 'q2', '20210601', 17, '47 Samurai', 'Xumo', '157.38'),
-(4, 2021, 'q2', '20210401', 17, '47 Samurai', 'Xumo', '7524.98'),
-(5, 2021, 'q2', '20210501', 17, '47 Samurai', 'Xumo', '10802.93'),
-(6, 2021, 'q2', '20210601', 17, '47 Samurai', 'Xumo', '11269.49')
-
-
+-- Invoice Revenue
+copy into revenue(deal_parent, revenue, impressions, cpms, territory_id, year_month_day, channel_id, quarter, year) 
+from (select t.$1, 
+      to_number(REPLACE(t.$2, ','), 12, 2), 
+      to_number(REPLACE(t.$3, ','), 16, 2),  
+      to_number(REPLACE(t.$4, ','), 8, 2),
+      t.$5,
+      t.$6,
+      t.$7,
+      2021,
+      'q4'
+from @revenue t) pattern='.*q4_21_invoice_revenue.*' file_format = nosey_viewership 
+ON_ERROR=SKIP_FILE;
 
 
 
 -- WURL Samsung
-copy into revenue(month,	device,	impressions,	ecpm,	revenue,	channel, channel_id, TERRITORY_id,	deal_parent,	quarter,	year, YEAR_MONTH_DAY) 
+copy into revenue(month, device, impressions, ecpm, revenue, channel, channel_id, TERRITORY_id,	deal_parent, quarter,	year, YEAR_MONTH_DAY) 
 from (select t.$1, 
       t.$2, 
       to_number(REPLACE(t.$3, ','), 16, 2), 
