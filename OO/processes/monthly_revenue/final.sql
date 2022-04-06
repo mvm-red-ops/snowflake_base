@@ -1,13 +1,13 @@
 
 
--- //spotx revenue complete
+-- spotx revenue 
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select sum(spotx_revenue) as revenue, year_month_Day, department_id, 'spotx' from spotx
 where department_id is not null and channel_name not like '%Tegna%'
 group by year_month_Day, department_id
 
 
--- pubmatic revenue done
+-- pubmatic revenue 
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select sum(pub_revenue), YEAR_MONTH_DAY,s.department_id, 'pubmatic' from spotx s
 join nosey_staging.public.departments nd on (nd.id = s.department_id)

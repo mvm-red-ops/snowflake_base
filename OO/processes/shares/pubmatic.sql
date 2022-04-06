@@ -12,7 +12,7 @@ and DEAL_NAME like '%ubmatic%'
 and DEAL_DEMAND_SOURCE != 'House Ad'
 group by channel_name, year_month_day
 
--- Step 2. get gross_rev by month
+-- Step 2. get ipmressions by month
 select sum(impressions),year_month_day from spotx g
 where  channel_name not in ('MVMS: Gravitas',
 'CarShield Test',
@@ -29,13 +29,7 @@ group by year_month_day
 --Step 3. insert into monthly_revenue
 insert into monthly_impressions(monthly_impressions, year_month_day, partner)
 select sum(impressions), year_month_day, 'pubmatic' from spotx g
-       where  channel_name not in ('MVMS: Gravitas',
-        'CarShield Test',
-        'Nosey Roku Test Channel',
-        'MVMS: World Poker Tour',
-        'MVMS: Shout Factory') 
-        and DEAL_NAME like '%ubmatic%'
-        and DEAL_DEMAND_SOURCE != 'House Ad'
+       where DEAL_NAME like '%Pubmatic%'
         group by year_month_day
 
 
@@ -43,12 +37,7 @@ select sum(impressions), year_month_day, 'pubmatic' from spotx g
 -- Step 4.  get pub_share of each device per month using sum(impressions) / monthly_revenue
 select (impressions / tot_impressions) as pub_share , g.year_month_day from spotx g
 join monthly_impressions m on (m.year_month_day = g.year_month_day)
-where  channel_name not in ('MVMS: Gravitas',
-'CarShield Test',
-'Nosey Roku Test Channel',
-'MVMS: World Poker Tour',
-'MVMS: Shout Factory') 
-and DEAL_NAME like '%ubmatic%'
+where DEAL_NAME like '%ubmatic%'
 and m.partner = 'pubmatic'
 and DEAL_DEMAND_SOURCE != 'House Ad'
 
@@ -58,12 +47,7 @@ set s.pub_share = q.qshare
 from (
   select g.id as gid, (impressions / tot_impressions) as qshare , g.year_month_day from spotx g
   join monthly_impressions m on (m.year_month_day = g.year_month_day)
-  where  channel_name not in ('MVMS: Gravitas',
-  'CarShield Test',
-  'Nosey Roku Test Channel',
-  'MVMS: World Poker Tour',
-  'MVMS: Shout Factory') 
-  and DEAL_NAME like '%ubmatic%'
+  where  DEAL_NAME like '%ubmatic%'
   and m.partner = 'pubmatic'
   and DEAL_DEMAND_SOURCE != 'House Ad'
 )  q
@@ -71,27 +55,10 @@ where s.id = q.gid
 
 
 
-select sum(pub_share) , year_month_day from spotx g
- where  channel_name not in ('MVMS: Gravitas',
-  'CarShield Test',
-  'Nosey Roku Test Channel',
-  'MVMS: World Poker Tour',
-  'MVMS: Shout Factory') 
-and DEAL_DEMAND_SOURCE != 'House Ad'
-and DEAL_NAME like '%ubmatic%'
-group by year_month_day
-
-
 
 select s.id as qid, pub_share, impressions, pub_share * mr.tot_revenue as rev_share,  s.year_month_day, s.channel_name from spotx s
 join monthly_revenue mr on (mr.year_month_day = s.year_month_day)
-where s.channel_name not in ('MVMS: Gravitas',
-'CarShield Test',
-'Nosey Roku Test Channel',
-'MVMS: World Poker Tour',
-'MVMS: Shout Factory')
-and s.DEAL_DEMAND_SOURCE != 'House Ad'
-and DEAL_NAME like '%ubmatic%'
+where DEAL_NAME like '%ubmatic%'
 
 
 update spotx s
@@ -99,13 +66,7 @@ set s.pub_revenue = q.rev_share
 from ( 
   select s.id as qid, pub_share, impressions, pub_share * mr.tot_revenue as rev_share,  s.year_month_day, s.channel_name from spotx s
   join monthly_revenue mr on (mr.year_month_day = s.year_month_day)
-  where s.channel_name not in ('MVMS: Gravitas',
-  'CarShield Test',
-  'Nosey Roku Test Channel',
-  'MVMS: World Poker Tour',
-  'MVMS: Shout Factory')
-  and s.DEAL_DEMAND_SOURCE != 'House Ad'
-  and DEAL_NAME like '%ubmatic%'
+  where DEAL_NAME like '%ubmatic%'
   and mr.partner = 'pubmatic'
 ) q
 where q.qid = s.id
