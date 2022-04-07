@@ -19,6 +19,10 @@ ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
 
+
+
+
+-- create statement
 create or replace table powr_viewership (
     id  integer default id_seq.nextval,
     uid varchar(155),

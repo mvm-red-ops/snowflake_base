@@ -7,8 +7,12 @@
                
                
 //step 3 
-    //update department ids for gam and spotx
-    
+    Update department/device ids 
+	Gam  
+		-update device_id, device_name and department_id based on Ad unit  (via dictionary.public.devices)
+	
+	SpotX
+	-update department_id through dictionary.public.channels matching on  channel_name    
     
 
 
@@ -44,7 +48,6 @@
             select sum(gross_revenue), year_month_day  from spotx
             group by year_month_day            
             
-
 
         
         //2a. update the spotx_share by dividing gross_rev by monthly_gross_rev        
