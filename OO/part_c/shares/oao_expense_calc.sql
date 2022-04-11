@@ -1,52 +1,27 @@
 
-//monthly impressions
-select * from monthly_impressions where partner = 'gam'
 
 
-
-//create share by ad unit 
-update gam_data g
-set g.oao_share = q.oao
-from (
-  select g.id as gid, total_impressions / m.tot_impressions as oao ,g.year_month_day,  ad_unit from gam_data g
-  join monthly_impressions m on (m.year_month_day = g.year_month_day)
-  join dictionary.public.channels c on (c.id = g.channel_id)
-  where  m.partner = 'gam' 
-) q
-where q.gid = g.id
-
-//check 
-  select sum(oao_share), g.year_month_day,  ad_unit, c.department_id as dep_id from gam_data g
-  join monthly_impressions m on (m.year_month_day = g.year_month_day)
-  join dictionary.public.channels c on (c.id = g.channel_id)
-  where  m.partner = 'gam'
-  group by g.year_month_day, ad_unit, c.department_id
-
-
-
-//check expense share
-  select oao_share * e.amount as es, g.year_month_day,  ad_unit, c.department_id as dep_id from gam_data g
-  join dictionary.public.channels c on (c.id = g.channel_id)
+-- check expense share
+  select oao_share * e.amount as exp_share, g.year_month_day,  ad_unit, g.department_id as dep_id from gam_data g
   join expenses e on (e.year_month_day = g.year_month_day )
   where partner = 'oao' and type = 'adserving'
 
 
-//update 
+-- update 
 update gam_data g
 set g.oao_expense_share = q.expense_sh
 from (
-  select g.id as gid, oao_share * e.amount as expense_sh, g.year_month_day,  ad_unit, c.department_id as dep_id from gam_data g
-  join dictionary.public.channels c on (c.id = g.channel_id)
+  select g.id as gid, oao_share * e.amount as expense_sh, g.year_month_day,  ad_unit, g.department_id as dep_id from gam_data g
   join expenses e on (e.year_month_day = g.year_month_day )
   where partner = 'oao' and type = 'adserving'
 ) q 
 where q.gid = g.id
 
-  select sum(oao_expense_share), g.year_month_day,  ad_unit, c.department_id as dep_id from gam_data g
+  select sum(oao_expense_share), g.year_month_day, c.department_id as dep_id from gam_data g
   join monthly_impressions m on (m.year_month_day = g.year_month_day)
   join dictionary.public.channels c on (c.id = g.channel_id)
   where  m.partner = 'gam'
-  group by g.year_month_day, ad_unit, c.department_id
+  group by g.year_month_day, c.department_id
 
 
 insert into monthly_expenses(
@@ -62,7 +37,7 @@ insert into monthly_expenses(
 
 
 
-//firetv expenses
+-- firetv expenses
 select sum(oao_share) * e.amount as exp, g.year_month_day,  ad_unit, c.department_id as dep_id from gam_data g
 join monthly_impressions m on (m.year_month_day = g.year_month_day)
 join dictionary.public.channels c on (c.id = g.channel_id)
@@ -72,7 +47,7 @@ group by g.year_month_day, ad_unit, c.department_id,  e.amount
   
 
 
-//firetv expenses
+-- firetv expenses
 select sum(oao_share) * e.amount as exp, g.year_month_day from gam_data g
 join monthly_impressions m on (m.year_month_day = g.year_month_day)
 join dictionary.public.channels c on (c.id = g.channel_id)
@@ -80,14 +55,14 @@ join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
 where  m.partner = 'gam' and g.department_id != 2
 group by g.year_month_day,  e.amount
  
-//firetv expenses
+-- firetv expenses
 select sum(oao_share) * e.amount as exp, g.year_month_day from gam_data g
 join dictionary.public.channels c on (c.id = g.channel_id)
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
 where  c.department_id = 2
 group by g.year_month_day,  e.amount
 
-//non firetv expenses
+-- non firetv expenses
 select sum(oao_share)* e.amount as exp, g.year_month_day from gam_data g
 join dictionary.public.channels c on (c.id = g.channel_id)
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
@@ -95,7 +70,7 @@ where  c.department_id != 2
 group by g.year_month_day,  e.amount
 
 
-//insert firetv expenses
+-- insert firetv expenses
 insert into monthly_expenses(
     amount, 
     year_month_day,
@@ -112,7 +87,7 @@ group by g.year_month_day,  e.amount,c.department_id
 
 
 
-//insert non-firetv expenses
+-- insert non-firetv expenses
 insert into monthly_expenses(
     amount, 
     year_month_day,
@@ -128,10 +103,10 @@ where  c.department_id != 2
 group by g.year_month_day,  e.amount
 
 
-//check roku expenses
+-- check roku expenses
 select * from expenses where type = 'roku'
 
-//add roku expenses to monthly_expenses
+-- add roku expenses to monthly_expenses
 insert into monthly_expenses(
     amount, 
     year_month_day,
