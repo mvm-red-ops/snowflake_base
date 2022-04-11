@@ -9,7 +9,7 @@
 //step 3 
     Update department/device ids 
 	Gam  
-		-update device_id, device_name and department_id based on Ad unit  (via dictionary.public.devices)
+    -update device_id, device_name and department_id based on Ad unit  (via dictionary.public.devices)
 	
 	SpotX
 	-update department_id through dictionary.public.channels matching on  channel_name    
