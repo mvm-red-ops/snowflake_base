@@ -61,7 +61,7 @@
 -- spotx
     -- fields to update: 
         --  filename, year, quarter, pattern
-        copy into revenue (
+        copy into spotx (
         timestamp,
         channel_name,
         deal_demand_source,

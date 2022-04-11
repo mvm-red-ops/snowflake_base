@@ -6,41 +6,6 @@
     -- the monthly revenue is calculated by the gam_impression share  
 
 
--- AdX records
-select * from gam_data where advertiser = 'AdX'
-
-    -- AdX Revenue
-    select sum(ad_exchange_revenue), year_month_day, department_id from gam_data where advertiser = 'AdX'
-    group by year_month_day, department_id
-    
-    -- insert AdX revenue into monthly_revenue
-    insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-    select sum(AD_EXCHANGE_REVENUE),YEAR_MONTH_DAY, department_id, 'adx' from gam_data 
-    where advertiser = 'AdX'
-    group by YEAR_MONTH_DAY,department_id
-
-
-
-
--- Roku Reps
--- use impressions of deals with roku reps to get share to break out revenue into months
-insert into monthly_revenue(tot_revenue, year_month_day, partner)
-select (sum(g.impressions) / 157651) * r.revenue as rokureps_rev, g.year_month_day, 'rokureps' from spotx g
-join revenue r
-where DEAL_NAME like '%Reps%' and r.pay_partner = 'roku reps'
-group by g.year_month_day , r.revenue
-
-
-
--- insert the monthly rev into table
-select (sum(g.impressions) / 157651) * r.revenue as rokureps_rev, g.year_month_day, 'rokureps' from spotx g
-join revenue r
-where DEAL_NAME like '%Reps%' and r.pay_partner = 'roku reps'
-group by g.year_month_day , r.revenue
-
-
-
-
 
 -- spotx revenue 
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
@@ -92,3 +57,38 @@ where pay_partner = 'glewedTv'
     insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
     select revenue, year_month_day, 2, 'videobridge'  from revenue
     where pay_partner like '%videobridge - firetv%'
+
+
+
+
+-- Roku Reps
+-- Since roku reps pays in a quarterly sum, we need to calculate a share to breakout the monthly revenue.
+-- For this we use spotx impressions
+        -- get total impressions for roku reps deals in spotx
+        select sum(IMPRESSIONS) from spotx 
+        where DEAL_NAME like '%Reps%'
+
+
+        -- use impressions of deals with roku reps to get share to break out revenue into months
+        select (sum(s.impressions) / PUT_TOTAL_IMPRESSIONS_FROM_ABOVE_HERE), s.year_month_day from spotx s
+        where DEAL_NAME like '%Reps%' 
+        group by s.year_month_day 
+
+
+
+        -- get revenue breakout by month
+        with 
+        monthly as
+        (
+                select (sum(s.impressions) / PUT_TOTAL_IMPRESSIONS_FROM_ABOVE_HERE) as share, s.year_month_day as ymd, 'rokureps' from spotx s
+                where DEAL_NAME like '%Reps%' 
+                group by s.year_month_day
+            ) 
+        select  revenue * monthly.share, monthly.ymd from revenue r, monthly where pay_partner = 'roku reps'
+
+
+        -- manually update the values in the insert statement and get each months revenue into monthly_revenue table
+        insert into monthly_revenue(tot_revenue, year_monthy_day, partner, department_id)
+        select (MANUALLY_PUT_REV_HERE , MANUALLY_PUT_YEAR_MONTH_DAY_HERE, 'roku reps', 5)
+
+
