@@ -27,6 +27,7 @@
                     --  Pubmatic 
                     --  Verizon Media 
                         -- need to sort/filter by month and 'Marketplace Connection Name' to get rev by month for FireTv and Roku 
+                        -- allocate non-firetv/roku connections to FireTv
                     --  VideoBridge 
                     --  Roku Reps (quarterly, so leave year_month_day blank)
                     --  SpotX (total for each month at bottom of payment support)
