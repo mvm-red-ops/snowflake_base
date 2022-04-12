@@ -19,6 +19,17 @@
         -- create a csv with the following columns: 
             -- year_month_day, revenue, pay_partner, impressions, cpm, quarter, year
             -- copy values in manually to the correct columns from the invoices 
+
+                    --  47 Samurai
+                        -- use the value in the box that says ''
+                    --  Amazon Publisher Services
+                    --  GlewedTV 
+                    --  Pubmatic 
+                    --  Verizon Media 
+                        -- need to sort/filter by month and 'Marketplace Connection Name' to get rev by month for FireTv and Roku 
+                    --  VideoBridge 
+                    --  Roku Reps (quarterly, so leave year_month_day blank)
+                    --  SpotX (total for each month at bottom of payment support)
         -- fields to update: 
         --  filename, year, quarter, pattern
         copy into revenue( year_month_day, revenue, pay_partner, impressions, cpm, quarter, year, filename)

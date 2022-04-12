@@ -1,11 +1,11 @@
 -- powr viewership
-    -- powr viewership by dept ad month
+    -- powr viewership by dept and month
     select sum(watch_time_secods), d.id, d.name, year_month_day, 'powr viewership share' as usage  from powr_viewership p
     join nosey_staging.public.departments d on (d.id = p.department_id)
     group by d.name, p.year_month_day, d.id
 
 
-    -- insert viewership by dept ad month
+    -- insert viewership by dept adn month
     insert into  monthly_viewership(tot_viewership, department_id, department_name, year_month_day, usage, quarter )
     select sum(watch_time_secods), d.id, d.name, year_month_day, 'powr viewership share' as usage, 'q4'  from powr_viewership p
     join nosey_staging.public.departments d on (d.id = p.department_id)

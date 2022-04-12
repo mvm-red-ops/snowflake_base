@@ -17,6 +17,9 @@
         ) q
 
 
+
+
+-- pretty sure this is spotx (see OAO expense calc in part e, verify with arianna) or am i confusing with spotx impression share for rokureps?
     -- 2. oao_share (for oao adserving)
         -- create share by ad unit 
         update gam_data g

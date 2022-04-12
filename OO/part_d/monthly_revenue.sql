@@ -59,13 +59,24 @@ where pay_partner = 'glewedTv'
     where pay_partner like '%videobridge - firetv%'
 
 
+-- verizon
+    -- roku
+    insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
+    select revenue, year_month_day, 5, 'verizon'  from revenue
+    where pay_partner like '%verizon - roku%'
+
+    -- firetv
+    insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
+    select revenue, year_month_day, 2, 'verizon'  from revenue
+    where pay_partner like '%verizon - firetv%'
+
 
 
 -- Roku Reps
 -- Since roku reps pays in a quarterly sum, we need to calculate a share to breakout the monthly revenue.
 -- For this we use spotx impressions
         -- get total impressions for roku reps deals in spotx
-        select sum(IMPRESSIONS) from spotx 
+        select sum(impressions) from spotx 
         where DEAL_NAME like '%Reps%'
 
 

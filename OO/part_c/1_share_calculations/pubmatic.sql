@@ -32,3 +32,15 @@
         and m.partner = 'pubmatic'
       )  q
       where s.id = q.gid
+
+
+    -- Update pubmatic rev share
+    update spotx s
+    set s.pub_revenue = q.pub_rev
+    from ( 
+      select s.id as qid, pub_share, s.impressions, pub_share * r.revenue as pub_rev,  s.year_month_day, s.channel_name from spotx s
+      join revenue r on (r.year_month_day = s.year_month_day)
+      where DEAL_NAME like '%Pubmatic%'
+      and r.pay_partner = 'pubmatic'
+    ) q
+    where q.qid = s.id
