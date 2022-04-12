@@ -23,7 +23,6 @@ update powr_viewership p
 
 
 
-
 -- spotx 
     update spotx s
     -- set channel id column to val in query, set dept id to val in query

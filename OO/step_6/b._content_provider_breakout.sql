@@ -78,7 +78,7 @@ join nosey_staging.public.departments d on (d.id = m.department_id)
 
 
 
--- regiser query
+-- register query
 select year_month_day, nd.name,partner as title,  content_provider, cp_share as content_provider_share, rev_share as revenue from register r
 join nosey_staging.public.departments nd on (nd.id = r.department_id)
 
