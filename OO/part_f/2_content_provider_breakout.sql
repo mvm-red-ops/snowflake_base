@@ -1,16 +1,6 @@
 -- monthly viewership - sum viewership minutes, grouped by department and year_month_day
--- content provider viewership - sum viewership minutes grouped by content_provider and year_month_day and department
+-- content provider viewership - sum viewership minutes grouped by content_provider,  year_month_day and department
 -- content provider share is determined by content provider viewership / monthly_viewership 
-
-select sum(watch_time_seconds),CONTENT_PROVIDER from powr_viewership
-group by CONTENT_PROVIDER
-
-
-
-
-select * from monthly_viewership
-where usage = 'powr viewership share'
-order by year_month_Day, department_id
 
 
 
