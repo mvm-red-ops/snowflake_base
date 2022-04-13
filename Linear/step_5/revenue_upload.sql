@@ -1,3 +1,4 @@
+-- 47 samurai
 copy into revenue(deal_parent, month,	impressions,	revenue, cpm ,	quarter,	year, year_month_day) 
 from (select 
         t.$1, 

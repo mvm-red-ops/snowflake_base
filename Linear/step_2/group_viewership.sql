@@ -1,6 +1,3 @@
--- monthly viewership totals
-
-
 -- //insert records into monthly_viewership
     insert into monthly_viewership (channel, year_month_day, deal_parent, tot_hov, quarter)
     select channel, year_month_day, deal_parent, sum(tot_hov), quarter from wurl_viewership where quarter = 'q4' and year = 2021 
