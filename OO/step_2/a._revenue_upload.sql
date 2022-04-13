@@ -34,7 +34,7 @@
         -- fields to update: 
         --  filename, year, quarter, pattern
         copy into revenue( year_month_day, revenue, pay_partner, impressions, cpm, quarter, year, filename)
-        from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, to_number(REPLACE(t.$4, ','),12, 0), to_number(REPLACE(t.$4, ','),6, 2), t.$5, t.$6,  'revenue_q4_21'
+        from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, to_number(REPLACE(t.$4, ','),12, 0), to_number(REPLACE(t.$5, ','),6, 2), t.$6, t.$7,  'revenue_q4_21'
         from @owned_and_operated t) pattern='.*revenue_q4_21.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE; 
         
