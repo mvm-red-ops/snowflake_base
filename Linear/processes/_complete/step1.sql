@@ -1,23 +1,23 @@
 -- viewership record check 
 
-//samsung 
+-- samsung 
 
-    //total viewership records (1066)
+    -- total viewership records (1066)
     select * from wurl_viewership where deal_parent = 18 and quarter = 'q3' and year = 2021 
 
 
-//trc
-    //total viewership records 1436
+-- trc
+    -- total viewership records 1436
     select * from wurl_viewership where deal_parent = 16 and quarter = 'q3' and year = 2021 
 
 
-//vizio
-    //total viewership records 1436
+-- vizio
+    -- total viewership records 1436
     select * from wurl_viewership where deal_parent = 20 and quarter = 'q3' and year = 2021 
 
 
-//plex
-    //total viewership records 2204
+-- plex
+    -- total viewership records 2204
     select * from wurl_viewership where deal_parent = 21 and quarter = 'q3' and year = 2021 
 
 

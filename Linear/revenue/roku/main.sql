@@ -1,11 +1,11 @@
-//trc
-    //total viewership records 1489
+-- trc
+    -- total viewership records 1489
     select * from wurl_viewership where deal_parent = 16 and quarter = 'q3' and year = 2021  
 
 
-//get quarterly viewership total by channel
+-- get quarterly viewership total by channel
     select channel, sum(tot_hov)from wurl_viewership where deal_parent = 16 and quarter = 'q3' and year = 2021 group by channel
-//insert into quarterly_viewership
+-- insert into quarterly_viewership
 insert into quarterly_viewership (channel, deal_parent,year, tot_hov, quarter)
     select channel, deal_parent, year, sum(tot_hov),quarter from wurl_viewership where quarter = 'q3' and year = 2021 and deal_parent = 16
     group by channel, month, deal_parent, year, quarter
@@ -36,7 +36,7 @@ WHERE wv.quarter = t.quarter and wv.deal_parent = t.deal_parent and t.year = wv.
 
 
 
-//check sum by channel, should = 1
+-- check sum by channel, should = 1
 select sum(share_calculated), channel 
 FROM WURL_VIEWERSHIP w
 where w.quarter = 'q3' and year = 2021 and w.deal_parent = 16
@@ -44,7 +44,7 @@ group by channel
 
 
 
-//insert/ check quarterly revenue
+-- insert/ check quarterly revenue
 select * from quarterly_revenue 
 where quarter = 'q3' and year = 2021 and deal_parent = 16
 
@@ -52,7 +52,7 @@ where quarter = 'q3' and year = 2021 and deal_parent = 16
 
 
 
-//join quarterly revenue on channel
+-- join quarterly revenue on channel
 select ref_id, month, share_calculated,q.revenue, share, share * q.revenue as revenue
 FROM wurl_viewership w
 join quarterly_revenue q on (q.quarter = w.quarter and q.year = w.year and q.channel = w.channel)
