@@ -17,7 +17,7 @@
 
     --  Because all of these have so few values, all pay partners can be grouped together on one csv 
         -- create a csv with the following columns: 
-            -- year_month_day, revenue, pay_partner, impressions, cpm, quarter, year
+            -- year_month_day, revenue, pay_partner, department_id, impressions, cpm, quarter, year
             --filename format: 'revenue_qx_2x' for example,  'revenue_q4_21'
             -- copy values in manually to the correct columns from the invoices 
 
@@ -28,18 +28,23 @@
                         -- Use the Total amounts for Impressions, CPM, and Revenue
                     --  Pubmatic 
                         -- Use the Publisher Revenue (Net) value for revenue
-                    --  Verizon Media 
-                        -- need to sort/filter by month and 'Marketplace Connection Name' to get rev by month for FireTv and Roku 
-                        -- allocate non-firetv/roku connections to FireTv
+                    --  Verizon Media
+                        -- Download Verizon Net Revenue Excel Sheet for the quarter 
+                        -- Sort/filter by month and 'Marketplace Connection Name' to get rev by month for FireTv and Roku
+                        -- Allocate non-Nosey_FireTV/Roku connections to FireTV
+                        -- Sum up the Ad Revenue for Nosey_Roku and Nosey_FireTV for each month
+                        -- Add the department_id
                     --  VideoBridge 
+                        -- Broken out per month between Roku and FireTV
                     --  Roku Reps 
                         -- Revenue is quarterly, so year_month_day may be left blank.
                     --  SpotX (total for each month at bottom of payment support)
                         --Click on SpotX Support folder, click on the Google sheet for the month you're looking for, and the revenue should be the highlighted green value total
+
         -- Fields to update in the below copy statement: 
         --  filename, pattern
 
-        copy into revenue( year_month_day, revenue, pay_partner, impressions, cpm, quarter, year, filename)
-        from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, to_number(REPLACE(t.$4, ','),12, 0), to_number(REPLACE(t.$5, ','),6, 2), t.$6, t.$7,  'revenue_q4_21'
+        copy into revenue( year_month_day, revenue, pay_partner, department_id, impressions, cpm, quarter, year, filename)
+        from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, t.$4, to_number(REPLACE(t.$5, ','),12, 0), to_number(REPLACE(t.$6, ','),6, 2), t.$7, t.$8,  'revenue_q4_21'
         from @owned_and_operated t) pattern='.*revenue_q4_21.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE; 
