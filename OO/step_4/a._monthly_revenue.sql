@@ -99,7 +99,7 @@ where pay_partner = 'glewedTv'
 
 
         -- manually update the values in the insert statement and get each months revenue into monthly_revenue table
-        insert into monthly_revenue(tot_revenue, year_monthy_day, partner, department_id)
+        insert into monthly_revenue(tot_revenue, year_month_day, partner, department_id)
         select (MANUALLY_PUT_REV_HERE , MANUALLY_PUT_YEAR_MONTH_DAY_HERE, 'roku reps', 5)
 
 
