@@ -32,7 +32,7 @@ group by YEAR_MONTH_DAY,department_id
 -- amazon publisher services
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select revenue, year_month_day, 2, 'amazon publisher services' from revenue 
-where PAY_PARTNER like 'amazon%'
+where PAY_PARTNER like '%amazon%'
 
 
 -- 47 samurai
