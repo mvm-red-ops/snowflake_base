@@ -1,4 +1,5 @@
--- 47 samurai
+-- 47 samurai 
+    -- Pull report from https://drive.google.com/drive/u/0/folders/16G2D-kiP8Eq1VMK1X1CpwrUFV8QxG-r8
 copy into revenue(deal_parent, month,	impressions,	revenue, cpm ,	quarter,	year, year_month_day) 
 from (select 
     t.$1, 
@@ -45,6 +46,8 @@ ON_ERROR=SKIP_FILE;
 
 
 -- WURL Samsung
+    -- Rev source 1 Samsung TV+: https://drive.google.com/drive/u/0/folders/1EpyyNnXYXmrPqTsPiT8IkBYjOFBQLE7h
+    -- Rev source 2, Samsung Aus: https://drive.google.com/drive/folders/1vf5dDUBHEmF2zVH_dhSeVEE0Agg9zOOs
 copy into revenue(month, device, impressions, ecpm, revenue, channel, channel_id, TERRITORY_id,	deal_parent, quarter,	year, YEAR_MONTH_DAY) 
 from (select t.$1, 
       t.$2, 
@@ -62,7 +65,8 @@ from @revenue t) pattern='.*samsung_revenue_q3_21.*' file_format = nosey_viewers
 ON_ERROR=SKIP_FILE;
 
 
--- vizio
+-- vizio 
+    -- NEVER MADE LOAD STATEMENT, CAN USE THIS OR CREATE ONE
 insert into revenue(month,channel_id, channel,  revenue,	quarter,	year, YEAR_MONTH_DAY,TERRITORY_id,	deal_parent) 
 values
 (7,	8,	'Nosey',	7480.81, 'q3', 2021, 	'20210701',	1,	20),
@@ -71,3 +75,22 @@ values
 (8,	9,	'Real Nosey',	14331.65, 'q3', 2021, 	'20210801',	1,	20),
 (9,	8,	'Nosey',	28296.53, 'q3', 2021, 	'20210901',	1,	20),
 (9,	9,	'Real Nosey',	10744.67, 'q3', 2021, 	'20210901',	1,	20)
+
+-- Xumo 
+    -- Pull report from https://drive.google.com/drive/folders/14qLygzta3Ep6Vl-39OvULz1iG5tYauZY
+
+-- KlowdTV 
+    -- Pull report from https://drive.google.com/drive/folders/19ScTNTwpDOq6lMm-uy9-VEGsi-d87foi
+
+
+-- TRC 
+    -- https://drive.google.com/drive/u/0/folders/143HGCGPsyWCyUJa4FSjbTrUy4pU58Bwo
+
+    -- Linear
+        -- The Channels listed at the top of the file are the total revenue for the quarter for those channels for TRC Linear
+        -- Upload those into the quarterly_revenue table 
+
+    -- VOD
+        -- The sum of the channel record's revenue is the total quarterly revenue for TRC VOD 
+        -- The monthly revenue is the quarterly revenue divided by 3    
+        
