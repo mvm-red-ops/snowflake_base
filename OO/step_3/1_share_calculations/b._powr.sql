@@ -17,13 +17,8 @@
     set p.share = q.powr_share
     from
     (
-<<<<<<< HEAD
-    select p.id as id, ref_id, WATCH_TIME_SECOndS / mv.TOT_VIEWERSHIP as powr_share, p.year_month_day, d.name   from powr_viewership p
-    join monthly_viewership mv on (mv.year_month_day = p.year_month_day ad mv.department_id  = p.department_id)
-=======
     select p.id as id, ref_id, WATCH_TIME_SECONDS / mv.TOT_VIEWERSHIP as powr_share, p.year_month_day, d.name from powr_viewership p
     join monthly_viewership mv on (mv.year_month_day = p.year_month_day and mv.department_id  = p.department_id)
->>>>>>> 33a912cc9cec9c13fd7912b4409030bad70acffb
     join nosey_staging.public.departments d on (d.id = p.department_id)
     where mv.usage = 'powr viewership share'
     ) q
