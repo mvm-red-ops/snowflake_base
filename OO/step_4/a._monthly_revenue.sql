@@ -26,25 +26,25 @@ group by YEAR_MONTH_DAY, s.department_id
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select sum(AD_EXCHANGE_REVENUE),YEAR_MONTH_DAY, department_id, 'adx' from gam_data 
 where advertiser = 'AdX'
-group by YEAR_MONTH_DAY,department_id
+group by YEAR_MONTH_DAY, department_id
 
 
 -- amazon publisher services
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select revenue, year_month_day, 2, 'amazon publisher services' from revenue 
-where PAY_PARTNER like 'amazon%'
+where pay_partner like '%amazon%'
 
 
 -- 47 samurai
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select revenue, year_month_day, 5, '47 samurai' from revenue 
-where filename like '%47%' and year_month_day in ('20211001', '20211101', '20211201')
+where pay_partner like '%47%' and year_month_day in ('20211001', '20211101', '20211201')
 
 
 -- glewedTv
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select revenue, year_month_day, 5, 'glewedtv' from revenue
-where pay_partner = 'glewedTv'
+where pay_partner = 'glewedtv'
 
 
 -- video bridge
@@ -99,7 +99,5 @@ where pay_partner = 'glewedTv'
 
 
         -- manually update the values in the insert statement and get each months revenue into monthly_revenue table
-        insert into monthly_revenue(tot_revenue, year_monthy_day, partner, department_id)
-        select (MANUALLY_PUT_REV_HERE , MANUALLY_PUT_YEAR_MONTH_DAY_HERE, 'roku reps', 5)
-
-
+        insert into monthly_revenue(tot_revenue, year_month_day, partner, department_id)
+        VALUES (MANUALLY_PUT_REV_HERE , MANUALLY_PUT_YEAR_MONTH_DAY_HERE, 'roku reps', 5)

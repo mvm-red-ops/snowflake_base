@@ -1,6 +1,3 @@
-
-
-
 -- check expense share
   select oao_share * e.amount as exp_share, g.year_month_day,  ad_unit, g.department_id as dep_id from gam_data g
   join expenses e on (e.year_month_day = g.year_month_day )
@@ -41,7 +38,7 @@ insert into monthly_expenses(
     year, 
     quarter
 )
-select sum(oao_share) * e.amount as exp, g.year_month_day, c.department_id, 'OAO - Adserving', 2021, 'q4'  from gam_data g
+select sum(oao_share) * e.amount as exp, g.year_month_day, g.department_id, 'OAO - Adserving', 2021, 'q4'  from gam_data g
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
 where g.department_id = 2
 group by g.year_month_day,  e.amount, g.department_id
@@ -76,4 +73,3 @@ insert into monthly_expenses(
     year, 
     quarter
 ) select amount, year_month_day, 5, 'OAO - Adserving', 2021, 'q4' from expenses where type = 'roku'
-
