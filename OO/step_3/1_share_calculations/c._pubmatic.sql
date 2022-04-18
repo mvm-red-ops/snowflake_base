@@ -3,6 +3,12 @@
         --  m =  monthly impressions 
         --  divide record level impressions by monthly impressions (m)
         --  then we can sum share by department_id
+        
+        -- (Prerequisite: Make sure that the year_month_day column is filled out. To update it, please use the update statement below. Set the year_month_day in YYYYMMDD format. Make sure month year is relevant. Do this for each month in the quarter.)
+        -- Update Statement YEAR_MONTH_DAY:
+            UPDATE gam_data
+            SET year_month_day = 20211001 <--- REPLACE in YYYYMMDD Format
+            WHERE month_year = 'Oct-21' <---- REPLACE
          
       -- monthly_impressions
       select sum(impressions), year_month_day from spotx s
