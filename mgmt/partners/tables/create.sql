@@ -1,4 +1,0 @@
-CREATE TABLE PARTNERS(
-    id integer AUTOINCREMENT START 1 INCREMENT 1,
-    name varchar(50)
-)

@@ -1,23 +1,3 @@
-  select a.id as id, a.total_viewership_minutes, mv.tot_hov, (a.total_viewership_minutes / mv.tot_hov) as v_share, a.month, t.name from amagi_viewership a
-  join territories t on (t.id = territory_id)
-  join monthly_viewership mv on (mv.year_month_day = a.month and a.territory_id = mv.territoryid)
-  where a.deal_parent = 23 and a.quarter = 'q3'
-  order by t.name, a.month
-  
-
-
--- NON TRC
-UPDATE amagi_viewership av
-SET av.calc_share = t.v_share 
-FROM (
-  select a.id as id, a.total_viewership_minutes, (a.total_viewership_minutes / mv.tot_hov) as v_share, a.month, t.name from amagi_viewership a
-  join territories t on (t.id = territory_id)
-  join monthly_viewership mv on (mv.year_month_day = a.month and a.territory_id = mv.territoryid)
-  where a.deal_parent = 23 
-  order by t.name, a.month
-) t
-WHERE av.id = t.id
-    
 
 
 select sum(revenue), year_month_day, territory_id from revenue where quarter = 'q3' and deal_parent = 23 group by year_month_day, territory_id
