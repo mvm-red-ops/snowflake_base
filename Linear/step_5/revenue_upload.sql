@@ -24,7 +24,7 @@
 
     -- Freebie
         -- https://drive.google.com/drive/folders/1UheC1vcoYP5sIlUzfTbtdAIav_o7cyGY
-        -- add the total rev for each month 
+        -- use total rev for each month 
 
     -- Rlaxx
         -- https://drive.google.com/drive/u/0/folders/1yvWV_mWOhNs3B5-dOBSoVkPwz-gGv3wg

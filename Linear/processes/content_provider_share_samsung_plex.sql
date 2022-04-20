@@ -1,15 +1,5 @@
 
 
-//individual expense itms
-select amount,channel, deal_parent, month from expenses e 
-where deal_parent in (18, 21) and quarter = 'q2' and year = 2021 
-group by deal_parent, channel, month
-
-select * from expenses e 
-where deal_parent in (18, 21) and quarter = 'q2' and year = 2021 
-
-
-
 //topline expenses 
 select sum(amount), month, year, quarter,channel,deal_parent  from expenses 
 where deal_parent in (18, 21) and quarter = 'q2' and year = 2021   
@@ -23,28 +13,7 @@ group by channel, month, year, quarter,deal_parent, channel
 
 
 
-//query check
-select * from monthly_expenses
-where deal_parent in (18, 21)  and quarter = 'q2' and year = 2021 
 
-select sum(tot_hov), deal_parent, month, channel from wurl_viewership where deal_parent in (18, 21)  and quarter = 'q2' group by month,channel, deal_parent
-insert into monthly_viewership(tot_hov, deal_parent, month_string, channel, year)
-select sum(tot_hov), deal_parent, month, channel, 2021 from wurl_viewership where deal_parent in (18, 21)  and quarter = 'q2' group by month,channel, deal_parent
-
-select * from monthly_viewership
-where deal_parent in (18, 21) and year = 2021
-
-//update monthly_expenses 
-//set month_string = '20210401' 
-//where month = 4 and year = 2021
-//
-//update monthly_expenses 
-//set month_string = '20210501' 
-//where month = 5 and year = 2021
-//
-//update monthly_expenses 
-//set month_string = '20210601' 
-//where month = 6 and year = 2021
 
 
 
