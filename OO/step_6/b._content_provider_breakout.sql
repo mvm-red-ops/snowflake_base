@@ -3,8 +3,6 @@
 -- content provider share is determined by content provider viewership / monthly_viewership 
 
 
-
-
 select p.department_id, p.year_month_day,sum(watch_time_seconds) from powr_viewership p
 join nosey_staging.public.departments d on (d.id = p.department_id)
 group by  p.department_id, p.year_month_day
@@ -13,15 +11,9 @@ order by p.year_month_Day, p.department_id
 
 -- content provider share is determined by total viewership 
 insert into content_provider_share (content_provider, department_id, year_month_day, total_viewership)
-select p.CONTENT_PROVIDER, d.department_id, p.year_month_day,sum(watch_time_seconds) from powr_viewership p
-join nosey_staging.public.devices d on (d.id = p.device_id)
-join nosey_staging.public.departments nd on (nd.id = d.department_id)
-group by p.CONTENT_PROVIDER, d.department_id, p.year_month_day
-order by p.year_month_Day, d.department_id
-
-
-
-
+select p.content_provider, p.department_id, p.year_month_day,sum(watch_time_seconds) from powr_viewership p
+group by p.content_provider, p.department_id, p.year_month_day
+order by p.year_month_day, p.department_id
 
 
 -- set the share of the content provider so that we can multiply by revenue to get rev_share
