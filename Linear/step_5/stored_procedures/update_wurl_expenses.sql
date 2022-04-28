@@ -28,7 +28,7 @@ CREATE OR REPLACE PROCEDURE month_update_wurl_invoices(quarter STRING, year DOUB
         SPLIT_PART(month, '_', 2) as year_,
         CONCAT(year_, month_, '01') as year_month_day
         from expenses
-        where  quarter = "QUARTER" and year = "YEAR" and year_month_day is null
+        where  quarter = "QUARTER" and year = "YEAR" and year_month_day is null and type = 'wurl'
       ) as sub_r
       WHERE r.id = sub_r.id `;
     try {
@@ -75,7 +75,7 @@ CREATE OR REPLACE PROCEDURE deal_parent_update_wurl_invoices(quarter STRING, yea
                 ELSE  null
             END as parent_name
             from expenses
-            where deal_parent is null and description is not null
+            where deal_parent is null and description is not null and type = 'wurl'
       ) as sub_r
       WHERE r.id = sub_r.id `;
     try {

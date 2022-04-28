@@ -1,5 +1,5 @@
 -- update deal_parent based on description field 
-CREATE OR REPLACE PROCEDURE deal_parent_update_wurl_invoices(quarter STRING, year DOUBLE)
+CREATE OR REPLACE PROCEDURE deal_parent_update_amagi_invoices(quarter STRING, year DOUBLE)
     returns string
     language javascript
     strict
@@ -31,7 +31,7 @@ CREATE OR REPLACE PROCEDURE deal_parent_update_wurl_invoices(quarter STRING, yea
                 ELSE  null
             END as parent_name
             from expenses
-            where deal_parent is null and description is not null and quarter = "QUARTER" and year = "YEAR" 
+            where  description is not null and quarter = "QUARTER" and year = "YEAR" and type = 'amagi'
       ) as sub_r
       WHERE r.id = sub_r.id `;
     try {
@@ -97,16 +97,19 @@ CREATE OR REPLACE PROCEDURE  update_amagi_invoices(quarter STRING, year DOUBLE)
                 ELSE  null
             END as parent_name,
                 CASE
-                WHEN CONTAINS(LOWER(TRIM(description)), 'realnosey')  THEN 9
-                WHEN CONTAINS(LOWER(TRIM(description)), 'judgenosey')  THEN 10
-                WHEN CONTAINS(LOWER(TRIM(description)), 'noseycasos')  THEN 11
-                WHEN CONTAINS(LOWER(TRIM(description)), 'noseycâsos')  THEN 12
-                WHEN CONTAINS(LOWER(TRIM(description)), 'noseyescándalos')  THEN 13
-                WHEN CONTAINS(LOWER(TRIM(description)), 'noseyescândalos')  THEN 14
+                
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'nosey')  THEN 8
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'realnosey')  THEN 9
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'judgenosey')  THEN 10
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'noseycasos')  THEN 11
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'noseycâsos')  THEN 12
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'noseyescándalos')  THEN 13
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'noseyescandalos')  THEN 13
+                WHEN CONTAINS(LOWER(REPLACE(description, ' ')), 'noseyescândalos')  THEN 14
                 ELSE  8
             END as _channel_id
             from expenses
-            where deal_parent is null and description is not null and quarter = "QUARTER" and year = "YEAR" 
+            where  description is not null and quarter = "QUARTER" and year = "YEAR" and type = 'amagi'
       ) as sub_r
       WHERE r.id = sub_r.id `;
     try {
@@ -119,6 +122,11 @@ CREATE OR REPLACE PROCEDURE  update_amagi_invoices(quarter STRING, year DOUBLE)
         return "Failed: " + err;   // Return a success/error indicator.
         }
     $$;
+
+
+call update_amagi_invoices('q4', 2021)
+
+
 
 
 

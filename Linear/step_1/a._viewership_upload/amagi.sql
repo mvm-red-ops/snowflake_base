@@ -36,4 +36,17 @@ ON_ERROR=SKIP_FILE;
 
 
 
-
+-- Rlaxx
+copy into AMAGI_VIEWERSHIP(
+channel,
+CONTENT_NAME,
+revenue,	
+year, 
+quarter,
+  deal_parent,
+filename) 
+from (
+    select t.$2, t.$3, 
+    to_number(REPLACE(REPLACE(t.$5, ','), '$'), 15, 5),
+    t.$6, t.$7, 22, 'rlaxx_episodic_q4_21.csv'  from @distribution_partners t) pattern='.*rlaxx_episodic_q4_21.*' file_format = nosey_viewership 
+ON_ERROR=SKIP_FILE;

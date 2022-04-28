@@ -7,3 +7,5 @@ create or replace sequence id_seq start = 1 increment = 1;
 
 INSERT INTO amagi_viewership_temp  
 SELECT *,id_seq.NEXTVAL   FROM amagi_viewership;
+
+
