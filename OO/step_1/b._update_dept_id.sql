@@ -13,7 +13,7 @@ update powr_viewership p
     from 
     (
         -- query to match viewership record to the device
-        select p.id as qid, d.id as devid, d.department_id as depid from powr_viewership p
+        select p.id as qid, d.device_id as devid, d.department_id as depid from powr_viewership p
         join dictionary.public.devices d on (d.entry = p.platform)
     ) q
     -- update where the record id matches the record id in query
