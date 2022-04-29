@@ -49,7 +49,7 @@ where  mr.department_id is not null
 -- insert into register 
 insert into register (
     year_month_day,
-    dpeartment_id, 
+    department_id, 
     content_provider, 
     rev_share, 
     cp_share,
