@@ -12,7 +12,8 @@ copy into expenses(
     month,
     quantity,
     year,
-    quarter
+    quarter,
+    territory_id
     )
 from (select t.$1, 
       to_number(REPLACE(REPLACE(t.$2, ','), '$'), 10, 5),  
@@ -63,7 +64,8 @@ copy into expenses(
     amount,
     year_month_day,
     year,
-    quarter
+    quarter,
+    territory_id
     )
 from (select t.$2, 
       to_number(REPLACE(REPLACE(t.$3, ','), '$'), 15, 4),  
