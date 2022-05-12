@@ -16,7 +16,7 @@ where tot_hov is null
 -- update year_month_day (repeat for each month)
     update amagi_viewership 
     set  year_month_day = '20211001'
-    where year_month_day is null and month like '10/%/21'
+    where year_month_day is null and view_date like '10/%/21'
 
     -- Update deal parent if not uploaded with it 
     update amagi_viewership 
@@ -44,25 +44,6 @@ where tot_hov is null
 
 
     
-    -- Not sure if the stored_procedures folder is helpful here.
-    --Update channel_id
-    UPDATE AMAGI_VIEWERSHIP t1
-        SET channel_id = t2.id
-        FROM channels t2
-        WHERE t1.channel = t2.name;
-
-    --Update territory_id
-    UPDATE AMAGI_VIEWERSHIP t1
-        SET territory_id = t2.id
-        FROM territories t2
-        WHERE t1.country = t2.name and t1.year = 2021 and t1.quarter = 'q3' and t1.deal_parent = 12;
-
-    --update device_id
-    UPDATE AMAGI_VIEWERSHIP t1
-        SET device_id = t2.id
-        FROM devices t2
-        WHERE t1.device = t2.name and t1.year = 2021 and t1.quarter = 'q3' and t1.deal_parent = 12;
-
     -- get ref id and series 
     CREATE OR REPLACE FUNCTION get_ref_id_amagi(s STRING)
         RETURNS VARCHAR
@@ -90,41 +71,39 @@ where tot_hov is null
 
 
     update amagi_viewership av
-    set av.ref_id = iv.ref_id_b, av.series = iv.series_b
+    set av.ref_id = q.ref_id_b
     from(
     select  get_ref_id_amagi(content_id) as ref_id_b, * from amagi_viewership where year = 2021 and quarter = 'q3'
-    ) iv
-    where av.id = iv.id
+    ) q
+    where av.id = q.id
 
 
     -- Can prob combine statements
 
-
-    CREATE OR REPLACE FUNCTION get_series_amagi(s STRING)
+    CREATE OR REPLACE FUNCTION get_series_id_amagi(s STRING)
         RETURNS VARCHAR
         LANGUAGE JAVASCRIPT
         AS '
             s = S.toLowerCase();
                 if(s.includes("jerry")) {
-                    return "The Jerry Springer Show";
+                    return "8";
                     }
                 if(s.includes("sally")) {
-                    return "Sally"
+                    return "32"
                     }
                 if(s.includes("trisha")) {
-                    return "Trisha";
+                    return "43";
                     }
                 if(s.includes("maury")) {
-                    return "Maury"
+                    return "29"
                     }
                 else return null
         ';
 
 
-
     update amagi_viewership av
-    set av.ref_id = iv.ref_id_b, av.series = iv.series_b
+    set  av.series_id = iv.series_id_q
     from(
-    select  get_series_amagi(content_id) as series_b, * from amagi_viewership where year = 2021 and quarter = 'q3'
+    select get_series_id_amagi(content_id) as series_id_q, * from amagi_viewership where year = 2021 and quarter = 'q3'
     ) iv
     where av.id = iv.id
