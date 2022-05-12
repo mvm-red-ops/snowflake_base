@@ -107,3 +107,14 @@ where tot_hov is null
     select get_series_id_amagi(content_id) as series_id_q, * from amagi_viewership where year = 2021 and quarter = 'q3'
     ) iv
     where av.id = iv.id
+
+
+    -- update content provider
+    update amagi_viewership a
+    set a.content_provider = q.cp
+    from (
+        select a.id as id, m.content_provider as cp from amagi_viewership a
+        join assets.public.metadata m on (a.ref_id = m.ref_id)
+        where year = 2021 and quarter = 'q3' and m.content_provider is not null
+    ) q
+    where q.id = a.id
