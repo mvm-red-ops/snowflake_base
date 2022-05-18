@@ -104,7 +104,7 @@ where (ref_id = 'externalId' or ref_id is null) and  quarter = 'q4' and year = 2
 
 
 
--- Amagi
+-- Amagi (SOME IF NOT ALL REF IDS SHOULD BE IN CONTENT ID COLUMN ALREADY)
 
     select av.formatted_title, a.title, soundex(av.formatted_title) t1, soundex(a.title) t2, fuzzy_score(a.title, av.formatted_title) v3, fuzzy_score(soundex(av.formatted_title), soundex(a.title)) v4 , 
     ((v3*1)+(v4*2))/3 weighted_composite_score, av.id as p_id, a.ref_id as a_ref_id

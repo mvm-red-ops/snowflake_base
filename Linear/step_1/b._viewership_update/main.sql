@@ -118,3 +118,10 @@ where tot_hov is null
         where year = 2021 and quarter = 'q3' and m.content_provider is not null
     ) q
     where q.id = a.id
+
+
+
+    -- update tot_hov 
+    update amagi_viewership 
+    set tot_hov = total_viewership_minutes / 60 
+    where tot_hov is null       

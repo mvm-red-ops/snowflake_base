@@ -7,10 +7,10 @@
         
 
     -- wurl by month, channel, territory
-        insert into monthly_viewership (channel, channel_id, year_month_day, tot_hov, year, quarter, deal_parent,territory_id, platform)
-        select channel, channel_id, year_month_day, sum(tot_hov),year, quarter, deal_parent,territory_id, 'wurl' from wurl_viewership 
+        insert into monthly_viewership ( channel_id, year_month_day, tot_hov, year, quarter, deal_parent,territory_id, platform)
+        select  channel_id, year_month_day, sum(tot_hov),year, quarter, deal_parent,territory_id, 'wurl' from wurl_viewership 
         where quarter = 'q4' and year = 2021 
-        group by channel,channel_id, year_month_day, year, quarter,deal_parent, territory_id
+        group by channel_id, year_month_day, year, quarter,deal_parent, territory_id
 
 
     -- trc
@@ -22,13 +22,12 @@
         
 -- Amagi
     -- amagi monthly_viewership
-    select sum(tot_hov), year_month_day, deal_parent, channel from amagi_viewership 
+    select channel_id, year_month_day, sum(tot_hov), territory_id, year, quarter, deal_parent from amagi_viewership 
     where year = 2021 and quarter = 'q4' group by year_month_day, deal_parent, channel
 
-
-    insert into monthly_viewership (channel, channel_id, year_month_day, tot_hov, year, quarter, deal_parent, platform)
-    select channel, channel_id, year_month_day, sum(tot_hov),year, quarter, deal_parent, 'amagi' from amagi_viewership 
-    where quarter = 'q4' and year = 2021 
-    group by channel,channel_id, year_month_day, year, quarter,deal_parent
+    insert into monthly_viewership (channel_id, year_month_day, tot_hov,territory_id, year, quarter, deal_parent, platform)
+    select channel_id, year_month_day, sum(tot_hov), territory_id, year, quarter, deal_parent, 'amagi' from amagi_viewership 
+    where year = 2021 and quarter = 'q4'
+    group by year_month_day, deal_parent, channel_id, year_month_day, territory_id
 
 

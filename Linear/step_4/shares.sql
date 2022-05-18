@@ -80,6 +80,6 @@
 
 
   -- Amagi viewership share check (should all equal 1)
-          select sum(share), year_month_day , channel_id from amagi_viewership  where quarter = 'q4' and year = 2021 group by year_month_day, channel_id ,deal_parent
+    select sum(share), year_month_day , channel_id from amagi_viewership  where quarter = 'q4' and year = 2021 group by year_month_day, channel_id ,deal_parent
 
     
