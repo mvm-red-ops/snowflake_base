@@ -30,27 +30,6 @@ call month_update_wurl_invoices('q4', 2021)
 -- update deal_parent after!
 call deal_parent_update_wurl_invoices()
 -- update the connector expense with no deal_parent to indiviudal fees for 
-    -- ex.
-        -- insert into expenses(description, amount, rate, month, quantity, year, quarter, channel, channel_id)
-        -- values
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Samsung', 750, 750, 'Oct_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Roku', 750, 750, 'Oct_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Roku', 750, 750, 'Oct_2021', 1, 2021, 'q4', 'Real Nosey', 9),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Plex', 750, 750, 'Oct_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Plex', 750, 750, 'Oct_2021', 1, 2021, 'q4', 'Real Nosey', 9),
-
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Samsung', 750, 750, 'Nov_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Roku', 750, 750, 'Nov_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Plex', 750, 750, 'Nov_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Roku', 750, 750, 'Nov_2021', 1, 2021, 'q4', 'Real Nosey', 9),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Plex', 750, 750, 'Nov_2021', 1, 2021, 'q4', 'Real Nosey', 9),
-
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Samsung', 750, 750, 'Dec_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Roku', 750, 750, 'Dec_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Plex', 750, 750, 'Dec_2021', 1, 2021, 'q4', 'Nosey', 8),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Roku', 750, 750, 'Dec_2021', 1, 2021, 'q4', 'Real Nosey', 9),
-        -- ('Package Fee (Level 2):  Monthly Fee HLS Connector - Plex', 750, 750, 'Dec_2021', 1, 2021, 'q4', 'Real Nosey', 9)
-
 
 
 -- Amagi
@@ -78,3 +57,40 @@ from @DISTRIBUTION_PARTNERS_EXPENSES t) pattern='.*amagi_invoices_q4_21.*' file_
 ON_ERROR=SKIP_FILE;
 
 
+
+
+
+
+
+-- Historical 
+copy into expenses(
+    year_month_day,
+    deal_parent,
+    department,
+    territory_id,
+    channel_id,
+    title,
+    type,
+    amount,
+    remaining_allocation,
+    invoice_number,
+    year,
+    quarter,
+    filename
+    )
+from (select 
+        t.$1, 
+        t.$2, 
+        t.$3, 
+        t.$4, 
+        t.$5, 
+        t.$6, 
+        t.$8, 
+      to_number(REPLACE(REPLACE(REPLACE(REPLACE(t.$9, ')'), '('), ','), '$'), 20, 5),  
+      to_number(REPLACE(REPLACE(REPLACE(REPLACE(t.$10, ')'), '('), ','), '$'), 20, 5),   
+       t.$11,
+       t.$12,
+       t.$13,
+       'ExpensesHistorical.csv'
+from @DISTRIBUTION_PARTNERS_EXPENSES t) pattern='.*ExpensesHistorical.*' file_format = nosey_viewership 
+ON_ERROR=SKIP_FILE;

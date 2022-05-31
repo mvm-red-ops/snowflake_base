@@ -105,4 +105,23 @@ copy into revenue(date_unformatted,	provider, partner, requests, impressions, cp
 
 
 
--- 
+
+-- Invoice Month	Department	Title	Label	Type	Sum/Count	Amount	Remaining Allocation	Intacct Number	year	quarter
+
+-- HISTORICAL REVENUE
+        copy into revenue (year_month_day, deal_parent, Department, territory_id, channel_id, title, type, revenue, remaining_allocation, invoice_number, year, quarter, filename )
+        from (select t.$1, 
+            t.$2,
+            t.$3,
+            t.$4,
+            t.$5,
+            t.$6,
+            t.$8,
+            to_number(REPLACE(REPLACE(t.$9, '$'), ','), 20, 5), 
+            to_number(REPLACE(REPLACE(t.$10, '$'), ','), 12, 4), 
+            t.$11,
+            t.$12,
+            t.$13,
+            'RevenueHistorical.csv'
+        from @DISTRIBUTION_PARTNERS_REVENUE t) pattern='.*RevenueHistorical.*' file_format = nosey_viewership 
+        FORCE=TRUE ON_ERROR=SKIP_FILE;
