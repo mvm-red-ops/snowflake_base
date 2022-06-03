@@ -107,3 +107,70 @@ from @distribution_partners t) pattern='.*future_today_historical.*' file_format
 ON_ERROR=CONTINUE FORCe=TRUE;
 
 
+
+
+-- roku platform (OO)
+copy into roku_viewership(year_month_day,	uid, ref_id, title, channel, views, average_hov, tot_hov, share, content_provider,	series,	year,	quarter, sessions, filename)
+from (select t.$1,t.$2, t.$3, t.$4, t.$5, to_number(REPLACE(t.$6, ','), 12, 2 ),to_number(REPLACE(t.$7, ','), 16, 6 ),to_number(REPLACE(t.$8, ',', ), 12, 2) to_number(REPLACE(t.$9, ','), 9, 6 ), t.$10, t.$11, t.$12, t.$13, to_number(REPLACE(t.$14, ','), 25, 4 ),'roku_data_platform_historical'
+from @owned_and_operated_viewership t) pattern='.*roku_data_platform_historical.*' file_format = nosey_viewership 
+
+
+
+-- POWR 
+copy into powr_viewership(
+ year_month_day,
+ uid,
+ title,
+ ref_id,
+ channel,
+ views,
+ watch_eighty_percent,
+ watch_time_seconds,
+ series,
+ content_provider,
+ share ,
+ year,
+ quarter,
+ type,
+ duration,
+ filename)
+from (select 
+ t.$1,
+ t.$2,
+ t.$3,
+ t.$4,
+ SUBSTRING(t.$5, 1, 150), 
+ to_number(REPLACE(t.$6, ','), 12, 2 ),
+ to_number(REPLACE(t.$7, ','), 15 ),
+ to_number(REPLACE(t.$8, ',' ), 12, 2), 
+ t.$9, 
+ t.$10, 
+ to_number(REPLACE(t.$11, '%'), 9, 6 ),  
+ t.$12, 
+ t.$13, 
+ t.$14, 
+ to_number(REPLACE(t.$15, ','), 15, 2), 
+ 'powr_historical'
+from @oo_viewership t) pattern='.*powr_historical.*' file_format = nosey_viewership 
+
+
+
+
+-- gam
+       copy into gam_data (
+        advertiser,
+        ad_unit,
+        month_year,
+        advertiser_id,
+        ad_unit_id,
+        total_impressions,
+        ad_exchange_revenue,
+        monthly_share_by_ad_unit_dept, 
+        year, 
+        quarter,
+        filename
+        )
+        from (select t.$1, t.$2, t.$3, t.$4, t.$5, to_number(REPLACE(t.$6,  ','), 15, 0), to_number(REPLACE(REPLACE(t.$7,  '$'),  ','), 15, 2), to_number(REPLACE(t.$8,  '%'), 6, 3), t.$9, t.$10,  'gam_data_historical.csv'
+        from @oo_viewership t) pattern='.*gam_data_historical.*' file_format = nosey_viewership FORCE=TRUE
+        
+
