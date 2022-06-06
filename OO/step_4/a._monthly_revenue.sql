@@ -5,12 +5,12 @@
     -- Roku Reps is paid in a quarterly sum, but is also only on Roku, so no need to break out by department
     -- the monthly revenue is calculated by the gam_impression share  
 
-
+--REMINDER: Be sure to update the relevant year and quarter for each statement!
 
 -- spotx revenue 
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select sum(spotx_revenue) as revenue, year_month_Day, department_id, 'spotx' from spotx
-where department_id is not null and channel_name not like '%Tegna%'
+where department_id is not null and channel_name not like '%Tegna%' and year = 20XX and quarter = 'qX'
 group by year_month_Day, department_id
 
 
@@ -18,57 +18,57 @@ group by year_month_Day, department_id
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select sum(pub_revenue), YEAR_MONTH_DAY,s.department_id, 'pubmatic' from spotx s
 join nosey_staging.public.departments nd on (nd.id = s.department_id)
-where pub_share is not null
+where pub_share is not null and year = 20XX and quarter = 'qX'
 group by YEAR_MONTH_DAY, s.department_id
 
 
 --adx is summed on record level
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
 select sum(AD_EXCHANGE_REVENUE),YEAR_MONTH_DAY, department_id, 'adx' from gam_data 
-where advertiser = 'AdX'
+where advertiser = 'AdX' and year = 20XX and quarter = 'qX'
 group by YEAR_MONTH_DAY, department_id
 
 
 -- amazon publisher services
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-select revenue, year_month_day, 2, 'amazon publisher services' from revenue 
-where pay_partner like '%amazon%'
+select amount, year_month_day, 2, 'amazon publisher services' from revenue 
+where pay_partner like '%amazon%' and year = 20XX and quarter = 'qX'
 
 
 -- 47 samurai
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-select revenue, year_month_day, 5, '47 samurai' from revenue 
-where pay_partner like '%47%' and year_month_day in ('20211001', '20211101', '20211201')
+select amount, year_month_day, 5, '47 samurai' from revenue 
+where pay_partner like '%47%' and year = 20XX and quarter = 'qX'
 
 
 -- glewedTv
 insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-select revenue, year_month_day, 5, 'glewedtv' from revenue
-where pay_partner = 'glewedtv'
+select amount, year_month_day, 5, 'glewedtv' from revenue
+where pay_partner = 'glewedtv' and year = 20XX and quarter = 'qX'
 
 
 -- video bridge
     -- roku
     insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-    select revenue, year_month_day, 5, 'videobridge'  from revenue
-    where pay_partner like '%videobridge - roku%'
+    select amount, year_month_day, 5, 'videobridge'  from revenue
+    where pay_partner like '%videobridge - roku%' and year = 20XX and quarter = 'qX'
 
     -- firetv
     insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-    select revenue, year_month_day, 2, 'videobridge'  from revenue
-    where pay_partner like '%videobridge - firetv%'
+    select amount, year_month_day, 2, 'videobridge'  from revenue
+    where pay_partner like '%videobridge - firetv%' and year = 20XX and quarter = 'qX'
 
 
 -- verizon
     -- roku
     insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-    select revenue, year_month_day, 5, 'verizon'  from revenue
-    where pay_partner like '%verizon - roku%'
+    select amount, year_month_day, 5, 'verizon'  from revenue
+    where pay_partner like '%verizon - roku%' and year = 20XX and quarter = 'qX'
 
     -- firetv
     insert into monthly_revenue(tot_revenue, year_month_day, department_id, partner)
-    select revenue, year_month_day, 2, 'verizon'  from revenue
-    where pay_partner like '%verizon - firetv%'
+    select amount, year_month_day, 2, 'verizon'  from revenue
+    where pay_partner like '%verizon - firetv%' and year = 20XX and quarter = 'qX'
 
 
 
