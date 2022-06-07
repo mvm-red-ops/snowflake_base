@@ -174,3 +174,20 @@ from @oo_viewership t) pattern='.*powr_historical.*' file_format = nosey_viewers
         from @oo_viewership t) pattern='.*gam_data_historical.*' file_format = nosey_viewership FORCE=TRUE
         
 
+
+-- spotx
+        copy into spotx (
+        channel_name,
+        deal_demand_source,
+        deal_name,
+        placements,
+        gross_revenue,
+        impressions,
+        year,
+        quarter,
+        month,
+        filename
+        )
+        from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 10, 0), to_number(REPLACE(t.$6, ','), 10,5), to_number(REPLACE(t.$7, ','), 12, 0), t.$8, t.$9, t.$10  'spotx_historical.csv'
+        from @owned_and_operated t) pattern='.*spotx_historical.*' file_format = nosey_viewership 
+        ON_ERROR=SKIP_FILE FORCE=TRUE; 
