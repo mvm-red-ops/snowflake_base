@@ -30,7 +30,7 @@
     filename
     )   
     from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 12, 2), to_decimal(REPLACE(t.$6,  ','), 12, 2), to_number(REPLACE(REPLACE(t.$7, '-', ''), ','), 16, 6), t.$8, t.$9, t.$10, 'qX', 202X,  'powr_viewership_qX_202X.csv'
-    from @owned_and_operated t) pattern='.*powr_viewership_qX_202X.*' file_format = nosey_viewership 
+    from @oo_viewership t) pattern='.*powr_viewership_qX_202X.*' file_format = nosey_viewership 
     ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
