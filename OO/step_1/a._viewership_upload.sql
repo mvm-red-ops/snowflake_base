@@ -12,7 +12,7 @@
 
 -- powr_viewership
     -- fields to update: 
-        --  filename, year, quarter, pattern
+        --  filename, year, quarter, pattern (replace where there is an 'X')
 
     copy into powr_viewership(
     uid, 
@@ -29,14 +29,14 @@
     year,
     filename
     )   
-    from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 12, 2), to_decimal(REPLACE(t.$6,  ','), 12, 2), to_number(REPLACE(REPLACE(t.$7, '-', ''), ','), 16, 6), t.$8, t.$9, t.$10, 'q4', 2021,  'powr_viewership.csv'
-    from @owned_and_operated t) pattern='.*powr_viewership.*' file_format = nosey_viewership 
+    from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 12, 2), to_decimal(REPLACE(t.$6,  ','), 12, 2), to_number(REPLACE(REPLACE(t.$7, '-', ''), ','), 16, 6), t.$8, t.$9, t.$10, 'qX', 202X,  'powr_viewership_qX_202X.csv'
+    from @owned_and_operated t) pattern='.*powr_viewership_qX_202X.*' file_format = nosey_viewership 
     ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
 -- gam_data
     -- fields to update: 
-        --  filename, year, quarter, pattern
+        --  filename, year, quarter, pattern (replace where there is an 'X')
 
         copy into gam_data (
         advertiser,
@@ -51,8 +51,8 @@
         year, 
         filename
         )
-        from (select t.$1, t.$2, t.$3, t.$4, t.$5, to_number(REPLACE(t.$6,  ','), 15, 0), to_number(REPLACE(t.$7,  ','), 15, 0), to_number(REPLACE(t.$8,  ','), 15, 2), 'q4', 2021,  'gam_q4_2021.csv'
-        from @owned_and_operated t) pattern='.*gam_q4_2021.*' file_format = nosey_viewership 
+        from (select t.$1, t.$2, t.$3, t.$4, t.$5, to_number(REPLACE(t.$6,  ','), 15, 0), to_number(REPLACE(t.$7,  ','), 15, 0), to_number(REPLACE(t.$8,  ','), 15, 2), 'qX', 202X,  'gam_qX_202X.csv'
+        from @oo_ad_data t) pattern='.*gam_qX_20XX.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
@@ -60,7 +60,8 @@
 
 -- spotx
     -- fields to update: 
-        --  filename, year, quarter, pattern
+        --  filename, year, quarter, pattern (replace where there is an 'X')
+        
         copy into spotx (
         timestamp,
         channel_name,
@@ -73,6 +74,6 @@
         year,
         filename
         )
-        from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 10, 0), to_number(REPLACE(t.$6, ','), 10,5), to_number(REPLACE(t.$7, ','), 12, 0),  'q4', 2021,  'spotx_revenue_q4_2021.csv'
-        from @owned_and_operated t) pattern='.*spotx_revenue_q4_2021.*' file_format = nosey_viewership 
+        from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 10, 0), to_number(REPLACE(t.$6, ','), 10,5), to_number(REPLACE(t.$7, ','), 12, 0),  'qX', 202X,  'spotx_revenue_qX_202X.csv'
+        from @oo_revenue t) pattern='.*spotx_revenue_qX_202X.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE; 
