@@ -22,10 +22,10 @@
                 -- copy values in manually to the correct columns from the invoices 
 
             -- fields to update: 
-                --  filename, year, quarter, pattern
+                --  Copy Into Statement: filename 'expenses_qX_202X' and pattern='.*expenses_qX_202X.*' (Replace the 'X')
             
 -- COPY INTO STATEMENT:
 copy into expenses( year_month_day, amount, pay_partner, type, quarter, year, filename)
-from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, t.$4, t.$5, t.$6,  'expenses_q4_21'
-from @owned_and_operated t) pattern='.*rev_q4_21.*' file_format = nosey_viewership 
+from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, t.$4, t.$5, t.$6,  'expenses_qX_202X'
+from @oo_expenses t) pattern='.*expenses_qX_202X.*' file_format = nosey_viewership 
 ON_ERROR=SKIP_FILE FORCE=TRUE; 
