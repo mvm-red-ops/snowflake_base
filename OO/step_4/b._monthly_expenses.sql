@@ -1,7 +1,9 @@
+--REMINDER: Be sure to update the quarter and year in each select statement and/or where clause
+
 -- check expense share
   select oao_share * e.amount as exp_share, g.year_month_day,  ad_unit, g.department_id as dep_id from gam_data g
   join expenses e on (e.year_month_day = g.year_month_day )
-  where pay_partner = 'oao' and type = 'adserving'
+  where pay_partner = 'oao' and type = 'adserving' and g.quarter = 'qX' and g.year = 202X
 
 
 -- update 
@@ -10,7 +12,7 @@ set g.oao_expense_share = q.expense_sh
 from (
   select g.id as gid, oao_share * e.amount as expense_sh, g.year_month_day,  ad_unit, g.department_id as dep_id from gam_data g
   join expenses e on (e.year_month_day = g.year_month_day )
-  where pay_partner = 'oao' and type = 'adserving'
+  where pay_partner = 'oao' and type = 'adserving' and g.quarter = 'qX' and g.year = 202X
 ) q
 where q.gid = g.id
 
@@ -19,17 +21,18 @@ where q.gid = g.id
 -- firetv expenses
 select sum(oao_share) * e.amount as exp, g.year_month_day from gam_data g
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
-where  g.department_id = 2
+where  g.department_id = 2 and g.quarter = 'qX' and g.year = 202X
 group by g.year_month_day,  e.amount
 
 -- non firetv expenses
 select sum(oao_share)* e.amount as exp, g.year_month_day from gam_data g
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
-where  g.department_id != 2
+where  g.department_id != 2 and g.quarter = 'qX' and g.year = 202X
 group by g.year_month_day,  e.amount
 
 
 -- insert firetv expenses
+--- Update quarter and year in select statement and where clause
 insert into monthly_expenses(
     amount, 
     year_month_day,
@@ -38,9 +41,9 @@ insert into monthly_expenses(
     year, 
     quarter
 )
-select sum(oao_share) * e.amount as exp, g.year_month_day, g.department_id, 'OAO - Adserving', 2021, 'q4'  from gam_data g
+select sum(oao_share) * e.amount as exp, g.year_month_day, g.department_id, 'OAO - Adserving', 202X, 'qX'  from gam_data g
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
-where g.department_id = 2
+where g.department_id = 2 and g.quarter = 'qX' and g.year = 202X
 group by g.year_month_day,  e.amount, g.department_id
 
 
@@ -54,9 +57,9 @@ insert into monthly_expenses(
     year, 
     quarter
 )
-select sum(oao_share) * e.amount as exp, g.year_month_day, 3, 'OAO - Adserving', 2021, 'q4'  from gam_data g
+select sum(oao_share) * e.amount as exp, g.year_month_day, 3, 'OAO - Adserving', 202X, 'qX'  from gam_data g
 join expenses e on (e.year_month_day = g.year_month_day and type = 'adserving')
-where  g.department_id != 2
+where  g.department_id != 2 and g.quarter = 'qX' and g.year = 202X
 group by g.year_month_day,  e.amount
 
 
@@ -72,4 +75,4 @@ insert into monthly_expenses(
     title,
     year, 
     quarter
-) select amount, year_month_day, 5, 'OAO - Adserving', 2021, 'q4' from expenses where type = 'roku'
+) select amount, year_month_day, 5, 'OAO - Adserving', 202X, 'qX' from expenses where type = 'roku'
