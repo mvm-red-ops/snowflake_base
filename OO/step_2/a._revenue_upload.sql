@@ -42,9 +42,9 @@
                         --Click on SpotX Support folder, click on the Google sheet for the month you're looking for, and the revenue should be the highlighted green value total
 
         -- Fields to update in the below copy statement: 
-        --  filename, pattern
+        --  filename, pattern (replace where there is an 'X')
 
-        copy into revenue( year_month_day, revenue, pay_partner, department_id, impressions, cpm, quarter, year, filename)
-        from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, t.$4, to_number(REPLACE(t.$5, ','),12, 0), to_number(REPLACE(t.$6, ','),6, 2), t.$7, t.$8,  'revenue_q4_21'
-        from @owned_and_operated t) pattern='.*revenue_q4_21.*' file_format = nosey_viewership 
-        ON_ERROR=SKIP_FILE FORCE=TRUE; 
+copy into revenue(year_month_day, amount, pay_partner, impressions, department_id, cpm, quarter, year, filename)
+from (select t.$1, to_number(REPLACE(REPLACE(t.$2, '$', ''), ','), 12, 2), t.$3, to_number(REPLACE(t.$4, ','),12, 0), t.$5, to_number(REPLACE(t.$6, ','),6, 2), t.$7, t.$8,  'revenue_qX_202X'
+from @oo_revenue t) pattern='.*revenue_qX_202X.*' file_format = nosey_viewership 
+ON_ERROR=SKIP_FILE FORCE=TRUE;
