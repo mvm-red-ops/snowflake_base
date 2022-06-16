@@ -1,8 +1,8 @@
 --SAMSUNG HISTORICAL
-copy into WURL_VIEWERSHIP(title, AVG_SESSION_HOV, occurances, tot_completions,tot_hov, tot_sessions, vs, year_month_day, ref_id, content_provide, series,  share, year, quarter,territory_id, channel_id, deal_parent, filename) 
+copy into WURL_VIEWERSHIP(title, AVG_SESSION_HOV, occurances, tot_completions,tot_hov, tot_sessions, vs, year_month_day, ref_id, content_provider, series,  share, year, quarter,territory_id, channel_id, deal_parent, filename) 
 from (select 
     REPLACE(t.$1, ','),
-    to_number(t.$2, 15, 10)
+    to_number(t.$2, 15, 10),
     to_number(REPLACE(t.$3, ','), 5, 2), 
     to_number(REPLACE(t.$4, ','), 10, 2), 
     to_number(REPLACE(t.$5, ','), 20, 5), 
@@ -12,14 +12,14 @@ from (select
     t.$9, 
     t.$10, 
     t.$11, 
-    to_number(REPLACE(t.$12, ','), 11, 8),
+    to_number(REPLACE(t.$12, '%'), 11, 8),
     t.$13, 
     t.$14, 
     1,
     8,
     18, 
     'samsung_historical.csv'
-from @distribution_partners t) pattern='.*samsung_historical.*' file_format = nosey_viewership 
+from @distribution_partners t) pattern='.*samsung_historical_2020.*' file_format = nosey_viewership 
 ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 

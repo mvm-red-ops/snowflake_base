@@ -1,6 +1,6 @@
 -- Invoice Month	Department	Vendor	Impressions	Type	Amount	Remaining Allocation	Posted Date	Payment/Invoice Date	Intacct Number	Journal Entry 	Type
 
-
+-- dist partners revenue
 copy into revenue(year_month_day, deal_parent, department, territory_id, channel_id, title, type, amount, remaining_allocation, invoice_number, year, quarter, filename) 
 from (select 
     t.$1,
@@ -21,6 +21,7 @@ from (select
 
 
 
+-- dist partners expenses
 
 copy into expenses(year_month_day, deal_parent, department, territory_id, channel_id, title, type, amount, remaining_allocation, invoice_number, year, quarter, filename) 
 from (select 
@@ -43,7 +44,6 @@ from (select
 
 
 
-Invoice Month	Platform	Vendor	Type	Column Name	Amount	Remaining Allocation	Intacct Number	year	quarter
 copy into revenue(year_month_day, department, title, type, description, amount, remaining_allocation, invoice_number, year, quarter, impressions) 
 from (select 
     t.$1,
@@ -63,7 +63,7 @@ from (select
 
 
 
--- 
+-- OO expenses
 copy into expenses(year_month_day, department, title, type, description, amount, remaining_allocation, invoice_number, year, quarter, impressions, filename) 
 from (select 
     t.$1,

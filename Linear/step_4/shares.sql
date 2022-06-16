@@ -37,9 +37,7 @@
       WHERE w.id = q.id
           
 
-          
-
- 
+           
           
 
 
