@@ -40,3 +40,9 @@ file_format = nosey_viewership;
 create or replace stage nosey_assets url='s3://nosey-snowflake/assets' 
 credentials=(aws_key_id='' aws_secret_key='')
 file_format = nosey_viewership;
+
+
+-- fixed costs 
+create or replace stage fixed_costs url='s3://nosey-snowflake/fixed_costs' 
+credentials=(aws_key_id='' aws_secret_key='')
+file_format = nosey_viewership;
