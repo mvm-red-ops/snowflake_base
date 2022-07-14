@@ -15,7 +15,7 @@ from (select
     t.$10,
     t.$11,
     t.$12, 'historical_revenue.csv'
-        from @distribution_partners t) pattern='.*historical_revenue.*' file_format = nosey_viewership 
+        from @distribution_partners_revenue t) pattern='.*historical_revenue.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
@@ -37,7 +37,7 @@ from (select
     t.$10,
     t.$11,
     t.$12, 'historical_expenses.csv'
-        from @distribution_partners t) pattern='.*historical_expenses.*' file_format = nosey_viewership 
+        from @distribution_partners_expenses t) pattern='.*historical_expenses.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
@@ -58,13 +58,13 @@ from (select
     t.$10,
     t.$11,
     t.$12, 'historical_revenue.csv'
-        from @distribution_partners t) pattern='.*historical_revenue.*' file_format = nosey_viewership 
+        from @distribution_partners_revenue t) pattern='.*historical_revenue.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
 
 -- OO expenses
-copy into expenses(year_month_day, department, title, type, description, amount, remaining_allocation, invoice_number, year, quarter, impressions, filename) 
+copy into expenses(year_month_day, department, title, label,type, amount, invoice_number, quarter, year, filename) 
 from (select 
     t.$1,
     t.$2,
@@ -72,12 +72,28 @@ from (select
     t.$4,
     t.$5,
     REPLACE(REPLACE(t.$6, '$'), ','),
-    REPLACE(REPLACE(t.$7, '$'), ','),
+    t.$7,
     t.$8,
     t.$9,
-    t.$10,
-    REPLACE(t.$11, ','),
-      'historical_oo_expenses.csv'
-        from @oo_expenses t) pattern='.*historical_oo_expenses.*' file_format = nosey_viewership 
+    'oo_expenses_2021.csv'
+        from @oo_expenses t) pattern='.*oo_expenses_2021.*' file_format = nosey_viewership 
         ON_ERROR=SKIP_FILE FORCE=TRUE;
+
+
+-- OO revenue
+copy into revenue (year_month_day, department, title, label,type, amount, invoice_number, quarter, year, filename) 
+from (select 
+    t.$1,
+    t.$2,
+    t.$3,
+    t.$4,
+    t.$5,
+    REPLACE(REPLACE(t.$6, '$'), ','),
+    t.$7,
+    t.$8,
+    t.$9,
+    'oo_revenue_2021_q3_q4_fix.csv'
+        from @oo_revenue t) pattern='.*oo_revenue_2021_q3_q4_fix.*' file_format = nosey_viewership 
+        ON_ERROR=SKIP_FILE FORCE=TRUE;
+        
         

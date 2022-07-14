@@ -1,0 +1,28 @@
+-- insert to master
+insert into master (IMPRESSIONS,
+AMOUNT,
+MONTH,
+QUARTER,
+YEAR,
+FILENAME,
+YEAR_MONTH_DAY,
+DEPARTMENT,
+TITLE,
+TYPE,
+DESCRIPTION,
+LABEL)
+select
+IMPRESSIONS,
+AMOUNT,
+MONTH,
+QUARTER,
+YEAR,
+FILENAME,
+YEAR_MONTH_DAY,
+DEPARTMENT,
+TITLE,
+TYPE,
+DESCRIPTION,
+LABEL
+from nosey_owned_operated.public.revenue
+where year in (2018, 2019, 2020)

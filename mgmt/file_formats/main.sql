@@ -1,3 +1,18 @@
+
+CREATE OR REPLACE  FILE FORMAT  GENERIC_CSV
+                      TYPE =  CSV  
+                      skip_header = 1
+                      TRIM_SPACE = TRUE
+                      NULL_IF = ('NULL')
+                      FIELD_DELIMITER = ',' 
+                      RECORD_DELIMITER = '\n' 
+                      FIELD_OPTIONALLY_ENCLOSED_BY = '\042' 
+                      ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE 
+
+
+	
+    		
+
 create or replace file format nosey_viewership
   type = 'CSV'
   field_delimiter = ','

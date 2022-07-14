@@ -23,7 +23,7 @@ from (select
 
 
 -- Owned and Operated
-copy into register(year_month_day, department, title, lineitemtype, type, content_provider, amount, year, quarter, filename) 
+copy into register(year_month_day, department, title, label, type, content_provider, amount, year, quarter, filename) 
 from (select 
     t.$1,
     t.$2,
