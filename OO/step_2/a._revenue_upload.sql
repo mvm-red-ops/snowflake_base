@@ -18,14 +18,17 @@
     --  Because all of these have so few values, all pay partners can be grouped together on one csv 
         -- create a csv with the following columns: 
             -- year_month_day, revenue, pay_partner, department_id, impressions, cpm, quarter, year
-            --filename format: 'revenue_qx_2x' for example,  'revenue_q4_21'
-            -- copy values in manually to the correct columns from the invoices 
+            -- filename format: 'revenue_qx_2x' for example,  'revenue_q4_21'
+            -- copy values in manually to the correct columns from the invoices
+            -- pay partners names should be in all lowercase
 
                     --  47 Samurai
                         -- Refer only to the 'Nosey Powr' table 
                     --  Amazon Publisher Services
+                        -- partner name = 'amazon publisher services (aps)' 
+                        -- Time Zone should be EST
                     --  GlewedTV 
-                        -- Use the Total amounts for Impressions, CPM, and Revenue
+                        -- Use the Nosey amounts for Impressions, CPM, and Revenue
                     --  Pubmatic 
                         -- Use the Publisher Revenue (Net) value for revenue
                     --  Verizon Media
