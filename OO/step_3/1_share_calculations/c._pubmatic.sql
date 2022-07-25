@@ -48,7 +48,7 @@
     from ( 
       select s.id as qid, pub_share, s.impressions, pub_share * r.amount as pub_rev,  s.year_month_day, s.channel_name from spotx s
       join revenue r on (r.year_month_day = s.year_month_day)
-      where DEAL_NAME like '%Pubmatic%' and s.year = 202X and s.quarter = 'qX
+      where DEAL_NAME like '%Pubmatic%' and s.year = 202X and s.quarter = 'qX'
       and r.pay_partner = 'pubmatic'
     ) q
     where q.qid = s.id
