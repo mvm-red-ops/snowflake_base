@@ -37,3 +37,6 @@
 
 
 --  3. SERIES UPDATE
+update pluto_viewership
+set series = get_series_pluto(clip_name)
+where year = 2022 and quarter = 'q1'

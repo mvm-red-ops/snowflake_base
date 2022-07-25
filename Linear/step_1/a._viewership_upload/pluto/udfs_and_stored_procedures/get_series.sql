@@ -47,9 +47,3 @@ CREATE OR REPLACE FUNCTION get_series_pluto(s STRING)
     ';
 
 
-update pluto_viewership pv
-set pv.ref_id = iv.ref_id_b, pv.series = iv.series_b
-from(
-   select  get_series_pluto(content_id) as series_b, * from pluto_viewership where year = 2021 and quarter = 'q3'
-) iv
-where pv.id = iv.id

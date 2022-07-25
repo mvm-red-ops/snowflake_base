@@ -15,6 +15,8 @@ channel_name,
 content_id,
 content_name,
 series,
+device,
+country,
 session_count,	
 total_viewership_minutes,
 unique_viewers,
@@ -25,14 +27,14 @@ year,
 quarter,
 filename) 
 from (
-    select t.$1, t.$2, t.$3, t.$4, t.$5,
-    to_number(t.$6, 12, 2),
-    to_number(REPLACE(t.$7, ','), 12, 2),
-    to_number(REPLACE(t.$8, ','), 12, 2),
-    to_number(REPLACE(t.$9, ','), 8, 2),
-    to_number(REPLACE(t.$10, ','), 8, 2),
-    to_number(REPLACE(t.$11, ','), 8, 2), 
-    2021, 'q4', 'amagi_q4_21.csv'  from @distribution_partners t) pattern='.*amagi_q4_21.*' file_format = nosey_viewership 
+    select t.$1, t.$2, t.$3, t.$4, t.$5,t.$6, t.$7,
+    to_number(t.$8, 12, 2),
+    to_number(REPLACE(t.$9, ','), 12, 2),
+    to_number(REPLACE(t.$10, ','), 12, 2),
+    to_number(REPLACE(t.$11, ','), 8, 2),
+    to_number(REPLACE(t.$12, ','), 8, 2),
+    to_number(REPLACE(t.$13, ','), 8, 2), 
+    2022, 'q1', 'amagi_q1_22.csv'  from @distribution_partners t) pattern='.*amagi_q1_22.*' file_format = nosey_viewership 
 ON_ERROR=SKIP_FILE;
 
 
