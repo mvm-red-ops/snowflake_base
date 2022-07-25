@@ -8,12 +8,25 @@ CREATE OR REPLACE PROCEDURE territory_update_amagi_viewership(quarter STRING, ye
     $$
     var sql_command = 
      `update amagi_viewership r
-        set r.territory_id = q.t_id 
+        set r.deal_territory = q.territory_name, r.territory_id = q.t_id 
         from (
-            select r.id as r_id,channel_name, substr(channel_name, len(channel_name) - 1), t.name, t.abbreviations
-            from amagi_viewership r 
-            left join territories t on (array_contains(substr(channel_name, len(channel_name) - 1)::variant, t.abbreviations))
-            where  quarter = "QUARTER" and year = "YEAR" and territory_id is null        
+            select r.id as r_id,
+            CASE
+              WHEN UPPER(channel_name) REGEXP '\.*CA' THEN 'Canada'
+              WHEN UPPER(channel_name) REGEXP '\.*AU' THEN 'Australia'
+              WHEN UPPER(channel_name) REGEXP '\.*IN' THEN 'India'
+              WHEN UPPER(channel_name) REGEXP '\.*MX' THEN 'Mexico'
+              WHEN UPPER(channel_name) REGEXP '\.*INTL.*' THEN 'International'
+            END as territory_name,
+            CASE
+              WHEN UPPER(channel_name) REGEXP '\.*IN' THEN 6
+              WHEN UPPER(channel_name) REGEXP '\.*INTL.*' THEN 2
+              WHEN UPPER(channel_name) REGEXP '\.*CA' THEN 4
+              WHEN UPPER(channel_name) REGEXP '\.*AU' THEN 10
+              WHEN UPPER(channel_name) REGEXP '\.*MX' THEN 8
+            END as t_id
+            from amagi_viewership r
+            where  quarter = "QUARTER" and year = "YEAR" 
         ) q
         where r.id = q.r_id `;
     try {
@@ -26,9 +39,4 @@ CREATE OR REPLACE PROCEDURE territory_update_amagi_viewership(quarter STRING, ye
         return "Failed: " + err;   // Return a success/error indicator.
         }
     $$;
-
-
-
--- call 
-call territory_update_amagi_viewership('q3', 2021::DOUBLE);
 

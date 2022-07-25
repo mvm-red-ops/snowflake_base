@@ -1,5 +1,5 @@
 -- update month based on date_unformatted field 
-CREATE OR REPLACE PROCEDURE month_update_amagi_viewership(quarter STRING, year DOUBLE)
+CREATE OR REPLACE PROCEDURE month_update_amagi(quarter STRING, year DOUBLE)
     returns string
     language javascript
     strict
@@ -7,27 +7,42 @@ CREATE OR REPLACE PROCEDURE month_update_amagi_viewership(quarter STRING, year D
     as
     $$
     var sql_command = 
-     `UPDATE amagi_viewership r SET month = sub_r.year_month_day 
+     `UPDATE amagi_viewership r SET year_month_day = sub_r.date_formatted, month = sub_r.month_name
         FROM (select id,  
           CASE
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Jan'  THEN '01'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Feb'  THEN '02'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Mar'  THEN '03'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Apr'  THEN '04'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'May'  THEN '05'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Jun'  THEN '06'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Jul'  THEN '07'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Aug'  THEN '08'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Sep'  THEN '09'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Oct'  THEN '10'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Nov'  THEN '11'
-              WHEN SPLIT_PART(date_interval, '-', 1) = 'Dec'  THEN '12'
+              WHEN SPLIT_PART(view_date, '/', 1) = '1'  THEN '01'
+              WHEN SPLIT_PART(view_date, '/', 1) = '2'  THEN '02'
+              WHEN SPLIT_PART(view_date, '/', 1) = '3'  THEN '03'
+              WHEN SPLIT_PART(view_date, '/', 1) = '4'  THEN '04'
+              WHEN SPLIT_PART(view_date, '/', 1) = '5'  THEN '05'
+              WHEN SPLIT_PART(view_date, '/', 1) = '6'  THEN '06'
+              WHEN SPLIT_PART(view_date, '/', 1) = '7'  THEN '07'
+              WHEN SPLIT_PART(view_date, '/', 1) = '8'  THEN '08'
+              WHEN SPLIT_PART(view_date, '/', 1) = '9'  THEN '09'
+              WHEN SPLIT_PART(view_date, '/', 1) = '10'  THEN '10'
+              WHEN SPLIT_PART(view_date, '/', 1) = '11'  THEN '11'
+              WHEN SPLIT_PART(view_date, '/', 1) = '12'  THEN '12'
               ELSE  null
-          END as month_, 
-        CONCAT('20', SPLIT_PART(date_interval, '-', 2)) as year_,
-        CONCAT(year_, month_, '01') as year_month_day
+          END as month_digit, 
+                    CASE
+              WHEN SPLIT_PART(view_date, '/', 1) = '1'  THEN 'January'
+              WHEN SPLIT_PART(view_date, '/', 1) = '2'  THEN 'February'
+              WHEN SPLIT_PART(view_date, '/', 1) = '3'  THEN 'March'
+              WHEN SPLIT_PART(view_date, '/', 1) = '4'  THEN 'April'
+              WHEN SPLIT_PART(view_date, '/', 1) = '5'  THEN 'May'
+              WHEN SPLIT_PART(view_date, '/', 1) = '6'  THEN 'June'
+              WHEN SPLIT_PART(view_date, '/', 1) = '7'  THEN 'July'
+              WHEN SPLIT_PART(view_date, '/', 1) = '8'  THEN 'August'
+              WHEN SPLIT_PART(view_date, '/', 1) = '9'  THEN 'September'
+              WHEN SPLIT_PART(view_date, '/', 1) = '10'  THEN 'October'
+              WHEN SPLIT_PART(view_date, '/', 1) = '11'  THEN 'November'
+              WHEN SPLIT_PART(view_date, '/', 1) = '12'  THEN 'December'
+              ELSE  null
+          END as month_name, 
+        CONCAT('20', SPLIT_PART(view_date, '/', 3)) as year_,
+        CONCAT(year_, month_digit, '01') as date_formatted
         from amagi_viewership
-        where quarter = "QUARTER" and year = "YEAR" and month is null
+        where quarter = "QUARTER" and year = "YEAR"
       ) as sub_r
       WHERE r.id = sub_r.id `;
     try {
@@ -40,53 +55,3 @@ CREATE OR REPLACE PROCEDURE month_update_amagi_viewership(quarter STRING, year D
         return "Failed: " + err;   // Return a success/error indicator.
         }
     $$;
-
--- month second
-CREATE OR REPLACE PROCEDURE month_update_amagi_viewership_backup(quarter STRING, year DOUBLE)
-    returns string
-    language javascript
-    strict
-    execute as owner
-    as
-    $$
-    var sql_command = 
-     `UPDATE amagi_viewership r SET month = sub_r.year_month_day 
-        FROM (select id,  
-          CASE
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Jan'  THEN '01'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Feb'  THEN '02'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Mar'  THEN '03'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Apr'  THEN '04'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'May'  THEN '05'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Jun'  THEN '06'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Jul'  THEN '07'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Aug'  THEN '08'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Sep'  THEN '09'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Oct'  THEN '10'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Nov'  THEN '11'
-              WHEN SPLIT_PART(date_interval, '-', 2) = 'Dec'  THEN '12'
-              ELSE  null
-          END as month_, 
-        CONCAT('20', SPLIT_PART(date_interval, '-', 1)) as year_,
-        CONCAT(year_, month_, '01') as year_month_day
-        from amagi_viewership
-        where quarter = "QUARTER" and year = "YEAR" and month is null
-      ) as sub_r
-      WHERE r.id = sub_r.id `;
-    try {
-        snowflake.execute (
-            {sqlText: sql_command}
-            );
-        return "Succeeded.";   // Return a success/error indicator.
-        }
-    catch (err)  {
-        return "Failed: " + err;   // Return a success/error indicator.
-        }
-    $$;
-
-   
--- for month first
-call month_update_amagi_viewership('q3', 2021::DOUBLE);
-
--- for month second
- call month_update_amagi_viewership_backup('q3', 2021::DOUBLE);
