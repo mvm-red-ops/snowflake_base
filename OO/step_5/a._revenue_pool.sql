@@ -42,12 +42,3 @@ where p.id = q.id
 
 
 
-
-
-set month = 7, quarter = 'q3' where year_month_day in ('20210701', '20200701', '20190701', '20180701')
-set month = 8, quarter = 'q3' where year_month_day in ('20210801', '20200801', '20190801', '20180801')
-set month = 9, quarter = 'q3' where year_month_day in ('20210901', '20200901', '20190901', '20180901')
-set month = 10, quarter = 'q4' where year_month_day in ('20211001', '20201001', '20191001', '20181001')
-set month = 11, quarter = 'q4' where year_month_day in ('20211101', '20201101', '20191101', '20181101')
-set month = 12, quarter = 'q4' where year_month_day in ('20211201', '20201201', '20191201', '20181201')
-
