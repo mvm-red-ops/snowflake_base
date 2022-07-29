@@ -76,4 +76,26 @@
         )
         from (select t.$1, t.$2, t.$3, t.$4, to_number(REPLACE(t.$5, ','), 10, 0), to_number(REPLACE(t.$6, ','), 10,5), to_number(REPLACE(t.$7, ','), 12, 0),  'qX', 202X,  'spotx_revenue_qX_202X.csv'
         from @oo_revenue t) pattern='.*spotx_revenue_qX_202X.*' file_format = nosey_viewership 
-        ON_ERROR=SKIP_FILE FORCE=TRUE; 
+        ON_ERROR=SKIP_FILE FORCE=TRUE;
+        
+ 
+ -- verizon
+    -- fields to update: quarter, pattern, year, filename, and replace where there is an 'X'
+    
+    copy into verizon(
+    date,
+    marketplace,
+    app_bundle,
+    ad_opportunity,
+    ad_impressions,
+    ad_revenue,
+    fill_rate,
+    ecpm,     
+    year_month_day,
+    quarter,
+    month,
+    filename
+    )   
+    from (select t.$1, t.$2, t.$3, to_number(REPLACE(t.$4, ','), 12, 0), to_number(REPLACE(t.$5, ','), 12, 0), t.$6, to_decimal(REPLACE(t.$7, '%'), 10, 5), t.$8, t.$9, t.$10, t.$11, 'verizon_qX_2022.csv'
+    from @oo_viewership t) pattern='.*verizon_qX_202X.*' file_format = nosey_viewership 
+    ON_ERROR=SKIP_FILE FORCE=TRUE;
