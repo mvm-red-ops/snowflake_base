@@ -21,16 +21,16 @@
         group by channel,channel_id, year_month_day, deal_parent, year, quarter
         
 
-    -- wurl by month, channel, territory
+    -- wurl by month, channel
         insert into monthly_viewership ( channel_id, year_month_day, tot_hov, year, quarter, deal_parent,territory_id, platform)
         select  channel_id, year_month_day, sum(tot_hov),year, quarter, deal_parent,territory_id, 'wurl' from wurl_viewership 
         where quarter = 'q1' and year = 2022 
         group by channel_id, year_month_day, year, quarter,deal_parent, territory_id
 
 
-    -- trc
-        insert into quarterly_viewership(deal_parent, tot_hov,year, quarter, channel, channel_id, platform)
-        select deal_parent, sum(tot_hov),year, quarter, channel, channel_id, 'wurl' from wurl_viewership 
+    -- The Roku Channel (done quarterly) 
+        insert into quarterly_viewership(deal_parent, tot_hov,year, quarter, channel, channel_id)
+        select deal_parent, sum(tot_hov),year, quarter, channel, channel_id from wurl_viewership 
         where quarter = 'q1'  and  year = 2022 and deal_parent = 16
         group by channel, channel_id, deal_parent,year, quarter
         

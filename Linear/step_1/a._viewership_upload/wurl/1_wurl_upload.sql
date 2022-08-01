@@ -113,9 +113,9 @@
     ON_ERROR=SKIP_FILE FORCe=TRUE;
 
 
-    -- Youtube
-    copy into wurl_viewership(content_id, title, publish_date, views, tot_hov, subscribers_gained, estimated_revenue, impressions, click_through_rate, deal_parent, year, quarter, filename)
-    from ( select t.$1,t.$2, t.$3, to_number(t.$4, 12, 2), to_number(t.$5, 20,5), to_number(t.$6, 7,0), to_number(t.$7, 20, 4), to_number(t.$8, 12, 2),  to_number(t.$9, 3,0), 42, 2022, 'q1', 'youtube_q1_22.csv'
+    -- Youtube (NEED TO PULL MONTHLY)
+    copy into wurl_viewership(content_id, title, publish_date, views, tot_hov, subscribers_gained, estimated_revenue, impressions, click_through_rate, year_month_day, deal_parent, year, quarter, filename)
+    from ( select t.$1,t.$2, t.$3, to_number(t.$4, 12, 2), to_number(t.$5, 20,5), to_number(t.$6, 7,0), to_number(t.$7, 20, 4), to_number(t.$8, 12, 2),  to_number(t.$9, 3,0), t.$10, 42, 2022, 'q1', 'youtube_q1_22.csv'
     from @distribution_partners t) pattern='.*youtube_q1_22.csv.*' file_format = nosey_viewership 
     ON_ERROR=SKIP_FILE FORCe=TRUE;
 

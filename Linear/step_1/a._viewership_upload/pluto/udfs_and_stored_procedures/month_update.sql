@@ -1,6 +1,3 @@
-
-
-
 CREATE OR REPLACE PROCEDURE month_update_pluto(quarter STRING, year DOUBLE)
     returns string
     language javascript
