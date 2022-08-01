@@ -1,6 +1,5 @@
 -- Amagi viewership
 
--- "Pull Samsung Canada Data from Amagi
 -- 1) Log Into Amagi Dashboard (https://analytics.amagi.tv/login)
 -- 2) Move to Download Reports
 -- 3) Customize Dates for entire quarter

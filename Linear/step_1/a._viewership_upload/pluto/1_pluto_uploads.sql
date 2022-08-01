@@ -40,26 +40,25 @@
 
 
 
--- Month	Partner Name	Clip Name	Episode Name	Total Viewing Minutes	Sessions	share	Revenue by Title	Content Provider	Ref ID	year	quarter	series	deal_parent	territory_id
--- historical
 
-copy into PLUTO_VIEWERSHIP( year_month_day, channel, clip_name, title, total_viewership_minutes, sessions, share, revenue, content_provider, ref_id, year, quarter, series, deal_parent, territory_id, filename)
-        from (select 
-        t.$1, 
-        t.$2, 
-        t.$3, 
-        t.$4, 
-        to_number(REPLACE(REPLACE(t.$5, ','), ''), 25, 5),  
-        to_number(REPLACE(t.$6, ','), 38, 0),  
-        to_number(REPLACE(t.$7, '%'), 10, 7), 
-        to_number(REPLACE(REPLACE(t.$8, '$', ''), ',', ''), 10, 3),
-        t.$9,
-        t.$10,
-        REPLACE(t.$11, ','),
-        t.$12,
-        t.$13,
-        t.$14,
-        t.$15,
-         'pluto_historical.csv'
-        from @distribution_partners t) pattern='.*pluto_historical.*' file_format = nosey_viewership 
-        ON_ERROR=SKIP_FILE FORCE=TRUE;
+    -- HISTORICAL
+    copy into PLUTO_VIEWERSHIP( year_month_day, channel, clip_name, title, total_viewership_minutes, sessions, share, revenue, content_provider, ref_id, year, quarter, series, deal_parent, territory_id, filename)
+            from (select 
+            t.$1, 
+            t.$2, 
+            t.$3, 
+            t.$4, 
+            to_number(REPLACE(REPLACE(t.$5, ','), ''), 25, 5),  
+            to_number(REPLACE(t.$6, ','), 38, 0),  
+            to_number(REPLACE(t.$7, '%'), 10, 7), 
+            to_number(REPLACE(REPLACE(t.$8, '$', ''), ',', ''), 10, 3),
+            t.$9,
+            t.$10,
+            REPLACE(t.$11, ','),
+            t.$12,
+            t.$13,
+            t.$14,
+            t.$15,
+            'pluto_historical.csv'
+            from @distribution_partners t) pattern='.*pluto_historical.*' file_format = nosey_viewership 
+            ON_ERROR=SKIP_FILE FORCE=TRUE;

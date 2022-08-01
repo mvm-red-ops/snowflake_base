@@ -107,8 +107,8 @@
 
 
     -- Tubi VOD
-    copy into wurl_viewership(title, vs, quantity, estimated_revenue, deal_parent, year, quarter, filename)
-    from ( select t.$1,t.$2, to_number(t.$3, 10, 2), to_number(t.$4, 20, 4), 40, 2022, 'q1', 'tubi_vod_q1_22.csv'
+    copy into wurl_viewership(title, vs, quantity, estimated_revenue, deal_parent,channel_id, year, quarter, filename)
+    from ( select t.$1,t.$2, to_number(t.$3, 10, 2), to_number(t.$4, 20, 4), 40, 8, 2022, 'q1', 'tubi_vod_q1_22.csv'
     from @distribution_partners t) pattern='.*tubi_vod_q1_22.csv.*' file_format = nosey_viewership 
     ON_ERROR=SKIP_FILE FORCe=TRUE;
 
