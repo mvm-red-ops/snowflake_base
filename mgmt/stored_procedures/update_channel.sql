@@ -1,3 +1,5 @@
+
+
 -- update channel_id  based on channel name
 CREATE OR REPLACE PROCEDURE channel_update_plex_revenue(quarter STRING, year DOUBLE)
     returns string

@@ -47,12 +47,14 @@ CONTENT_NAME,
 revenue,	
 year, 
 quarter,
-  deal_parent,
+channel_id,
+territory_id,
+deal_parent,
 filename) 
 from (
     select t.$1, t.$2, t.$3, 
     to_number(REPLACE(REPLACE(t.$5, ','), '$'), 15, 5),
-    2022, 'q1', 22, 'rlaxx_invoice_q1_22.csv'  from @distribution_partners t) pattern='.*rlaxx_invoice_q1_22.*' file_format = nosey_viewership 
+    2022, 'q1',8, 1, 22, 'rlaxx_invoice_q1_22.csv'  from @distribution_partners t) pattern='.*rlaxx_invoice_q1_22.*' file_format = nosey_viewership 
 ON_ERROR=SKIP_FILE;
 
 
@@ -65,6 +67,8 @@ revenue,
 year_month_day, 
 year,
 quarter,
+channel_id, 
+territory_id,
 deal_parent,
 filename) 
 from (
@@ -73,5 +77,5 @@ from (
     t.$1,
     to_number(t.$2 , 20, 5),
     t.$3,
-    2022, 'q1', 27, 'freebie_invoice_q1_22.csv'  from @distribution_partners t) pattern='.*freebie_invoice_q1_22.*' file_format = nosey_viewership 
+    2022, 'q1', 8, 1,  27, 'freebie_invoice_q1_22.csv'  from @distribution_partners t) pattern='.*freebie_invoice_q1_22.*' file_format = nosey_viewership 
 ON_ERROR=SKIP_FILE;
