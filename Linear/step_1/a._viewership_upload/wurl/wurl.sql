@@ -62,7 +62,7 @@
                 t.$11, 
                 16, 'Roku', 1, 2021, 'q3','trc_linear_2021_q3'
             from @distribution_partners t) pattern='.*trc_linear_2021_q3.*' file_format = nosey_viewership 
-            ON_ERROR=CONTINUE FORCE=TRUE;
+            ON_ERROR=SKIP_FILE FORCE=TRUE;
 
 
 
@@ -75,7 +75,7 @@
                 to_number(REPLACE(REPLACE(t.$2, ','), '$'), 9, 3),  
                 25, 1, 2021, 'q3','trc_vod_2021_q3'
         from @distribution_partners t) pattern='.*trc_vod_2021_q3.*' file_format = nosey_viewership 
-        ON_ERROR=CONTINUE FORCE=TRUE;
+        ON_ERROR=SKIP_FILE FORCE=TRUE;
 
   
 
@@ -84,7 +84,7 @@
         copy into wurl_viewership(channel, title, avg_session_hov, occurances ,tot_completions, tot_hov, tot_sessions,vs, month, ref_id, share, revenue, deal_parent,territory_id, year, quarter, filename) 
         from (select t.$1, t.$2, to_number(REPLACE(t.$3, ','), 15, 10), to_number(REPLACE(t.$4, ',')),to_number(REPLACE(t.$5, ','), 15, 6),  to_number(REPLACE(t.$6, ','), 10, 5), to_number(REPLACE(t.$7, ','), 10, 5), t.$8,t.$9, t.$10, to_number(REPLACE(t.$13, '%'), 10, 4), to_number(REPLACE(REPLACE(t.$14, '$'), ','), 9, 3), 20, 1,2021, 'q2', 'vizio_q2_2021_updated'
         from @distribution_partners t) pattern='.*vizio_q2_2021_updated.*' file_format = nosey_viewership 
-        ON_ERROR=CONTINUE FORCE=TRUe;
+        ON_ERROR=SKIP_FILE FORCE=TRUe;
 
 
     -- plex
@@ -102,7 +102,15 @@
         copy into wurl_viewership(channel, title, play_count, total_time_watched, asset_duration, avg_play_time, avg_playthrough_rate, asset_id, month, share,ref_id,revenue, deal_parent, year, quarter,territory_id,  filename)
         from (select t.$1,t.$2, to_number(t.$3,7,0),t.$4, t.$5, t.$6, to_decimal(t.$7, 11, 10), t.$8, t.$9, to_decimal(REPLACE(t.$10, '%'),6,4), t.$11, to_number(REPLACE(REPLACE(t.$13, '$'), ','), 9, 3),17, 2021, 'q3' , 1,'xumo_2021_q2'
         from @distribution_partners t) pattern='.*xumo_2021_q2.*' file_format = nosey_viewership 
-        ON_ERROR=CONTINUE FORCe=TRUE;
+        ON_ERROR=SKIP_FILE FORCe=TRUE;
+
+
+
+    -- Tubi VOD
+    copy into wurl_viewership(title, vs, quantity, estimated_revenue, deal_parent, year, quarter, filename)
+    from ( select t.$1,t.$2, to_number(t.$3, 10, 2), to_number(t.$4, 20, 4), 40, 2022, 'q1', 'tubi_vod_q1_22.csv'
+    from @distribution_partners t) pattern='.*tubi_vod_q1_22.csv.*' file_format = nosey_viewership 
+    ON_ERROR=SKIP_FILE FORCe=TRUE;
 
 
     -- Youtube
@@ -110,3 +118,6 @@
     from ( select t.$1,t.$2, t.$3, to_number(t.$4, 12, 2), to_number(t.$5, 20,5), to_number(t.$6, 7,0), to_number(t.$7, 20, 4), to_number(t.$8, 12, 2),  to_number(t.$9, 3,0), 42, 2022, 'q1', 'youtube_q1_22.csv'
     from @distribution_partners t) pattern='.*youtube_q1_22.csv.*' file_format = nosey_viewership 
     ON_ERROR=SKIP_FILE FORCe=TRUE;
+
+
+
